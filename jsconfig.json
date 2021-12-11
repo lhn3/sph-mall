@@ -1,0 +1,15 @@
+
+{
+  "compilerOptions":{
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    }
+  },
+  "extends": [
+    "node_modules",
+    "dist"
+  ]
+}
