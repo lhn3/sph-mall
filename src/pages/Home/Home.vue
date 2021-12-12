@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!--    三级联动-->
-    <TypeNav></TypeNav>
+    <TypeNav :categoryList="categoryList"></TypeNav>
 
     <!--    轮播图-->
     <ListContainer></ListContainer>
@@ -31,8 +31,13 @@
   import Floor from './childCpns/Floor'
   import Brand from './childCpns/Brand'
 
+  import {mapState} from 'vuex'
+
   export default {
     name: "Home",
+    state() {
+      return {}
+    },
     components: {
       ListContainer,
       TodayRecommend,
@@ -40,6 +45,17 @@
       Like,
       Floor,
       Brand,
+    },
+    methods: {},
+    mounted() {
+      //获取三级联动的数据
+      this.$store.dispatch('home/getMessageAction')
+    },
+    computed: {
+      ...mapState({
+        // state为根，包含所有模块的state
+        categoryList: (state) => state.home.typeNav
+      })
     }
   }
 </script>

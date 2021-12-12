@@ -7,14 +7,14 @@ import userStore from "@/store/user/userStore";
 Vue.use(Vuex)
 
 //定义仓库
-export default store = new Vuex.Store({
+export const store = new Vuex.Store({
   state: {},
   getters: {},
   mutations: {},
   actions: {},
   modules: {
-    home:homeStore,
-    search:searchStore,
-    user:userStore
+    home: homeStore,
+    search: searchStore,
+    user: userStore
   }
 })

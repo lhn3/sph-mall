@@ -3,7 +3,9 @@ import App from './App.vue'
 //导入注册的路由
 import router from '@/router'
 //导入store
-import store from '@/store'
+import {store} from '@/store'
+//导入组件
+import TypeNav from "@/components/TypeNav/TypeNav";
 
 Vue.config.productionTip = false
 
