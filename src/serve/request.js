@@ -1,4 +1,7 @@
 import axios from 'axios'
+//导入进度条插件
+import nprogress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 //封装axios
 export function request(data) {
@@ -10,6 +13,7 @@ export function request(data) {
 
   //请求拦截器
   requests.interceptors.request.use(config => {
+    nprogress.start()
     console.log('请求拦截')
     return config
   },error => {
@@ -19,6 +23,7 @@ export function request(data) {
 
   //响应拦截器
   requests.interceptors.response.use(res => {
+    nprogress.done()
     console.log('响应拦截')
     return res.data
   },error => {
