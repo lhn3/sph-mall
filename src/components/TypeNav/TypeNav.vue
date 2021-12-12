@@ -3,33 +3,33 @@
     <div class="container">
       <h2 class="all">全部商品分类</h2>
       <nav class="nav">
-        <a href="###">服装城</a>
-        <a href="###">美妆馆</a>
-        <a href="###">尚品汇超市</a>
-        <a href="###">全球购</a>
-        <a href="###">闪购</a>
-        <a href="###">团购</a>
-        <a href="###">有趣</a>
-        <a href="###">秒杀</a>
+        <a>服装城</a>
+        <a>美妆馆</a>
+        <a>尚品汇超市</a>
+        <a>全球购</a>
+        <a>闪购</a>
+        <a>团购</a>
+        <a>有趣</a>
+        <a>秒杀</a>
       </nav>
-      <div class="sort">
+      <div class="sort" @click="toSearch">
         <div class="all-sort-list2">
           <div class="item" v-for="(item1,index) in categoryList" :key="item1.categoryId"
                :class="{'active':actIndex==index}"
                @mouseenter="focusItem(index)"
-                @mouseleave="blurItem">
+               @mouseleave="blurItem">
             <h3>
-              <a href="">{{item1.categoryName}}</a>
+              <a :data-category="item1.categoryName" :data-category1="item1.categoryId">{{item1.categoryName}}</a>
             </h3>
             <div class="item-list clearfix" :style="{display:actIndex==index?'block':'none' }">
               <div class="subitem" v-for="item2 in item1.categoryChild" :key="item2.categoryId">
                 <dl class="fore">
                   <dt>
-                    <a href="">{{item2.categoryName}}</a>
+                    <a :data-category="item2.categoryName" :data-category2="item2.categoryId">{{item2.categoryName}}</a>
                   </dt>
                   <dd>
                     <em v-for="item3 in item2.categoryChild" :key="item3.categoryId">
-                      <a href="">{{item3.categoryName}}</a>
+                      <a :data-category="item3.categoryName" :data-category3="item3.categoryId">{{item3.categoryName}}</a>
                     </em>
                   </dd>
                 </dl>
@@ -43,25 +43,49 @@
 </template>
 
 <script>
+  import debounce from 'lodash/debounce'
+
   export default {
     name: "TypeNav",
-    data(){
-      return{
-        actIndex:-1
+    data() {
+      return {
+        actIndex: -1
       }
     },
-    props:{
-      categoryList:{
-        type:Array,
-        default:()=>[]
+    props: {
+      categoryList: {
+        type: Array,
+        default: () => []
       }
     },
-    methods:{
-      focusItem(i){
-        this.actIndex=i
+    methods: {
+      //防抖
+      focusItem: debounce(function (i) {
+        this.actIndex = i
+      }, 50),
+      blurItem() {
+        this.actIndex = -1
       },
-      blurItem(){
-        this.actIndex=-1
+      //  组件跳转(事件委派)
+      toSearch(event) {
+        const {category, category1, category2, category3} = event.target.dataset
+        //点击了任何一个a标签
+        if (category) {
+          let query = {categoryName: category}
+          //点击了第一级标签
+          if (category1) {
+            query.category1Id=category1
+            //点击了第二级标签
+          } else if (category2) {
+            query.category2Id=category2
+            //点击了第二级标签
+          } else {
+            query.category3Id=category3
+          }
+
+        //  组件跳转
+          this.$router.push({name: 'search',query:query})
+        }
       }
     }
   }
@@ -187,8 +211,14 @@
       }
     }
   }
-  .active{
+
+  .active {
     background-color: #a4cb76;
+  }
+
+  a {
+    cursor: pointer;
+    text-decoration: none !important;
   }
 
 </style>
