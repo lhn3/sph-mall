@@ -1,12 +1,15 @@
 <template>
-  <div>
+  <div class="home">
+    <TypeNav></TypeNav>
     首页
   </div>
 </template>
 
 <script>
   export default {
-    name: "Home"
+    name: "Home",
+    components:{
+    }
   }
 </script>
 
