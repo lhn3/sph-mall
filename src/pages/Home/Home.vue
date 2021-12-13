@@ -17,8 +17,6 @@
 
     <!--    楼层-->
     <Floor v-for="floor in floors" :floor-info="floor" :key="floor.id"></Floor>
-<!--    <Floor :floor-info="floors[0]"></Floor>-->
-<!--    <Floor :floor-info="floors[1]"></Floor>-->
 
     <!--    商标-->
     <Brand></Brand>
