@@ -62,7 +62,7 @@ export default new Router({
       }
     },
     {
-      path:'/search',
+      path:'/search/:key?',
       name:'search',
       component:Search,
       meta:{

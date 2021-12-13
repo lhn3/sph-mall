@@ -2,7 +2,7 @@
   <div class="type-nav">
     <div class="container">
       <div @mouseenter="categoryShow" @mouseleave="categoryHidden">
-      <h2 class="all" >全部商品分类</h2>
+        <h2 class="all">全部商品分类</h2>
         <div class="sort" v-show="isShow">
           <div class="all-sort-list2" @click="toSearch">
             <div class="item" v-for="(item1,index) in categoryList" :key="item1.categoryId"
@@ -16,7 +16,8 @@
                 <div class="subitem" v-for="item2 in item1.categoryChild" :key="item2.categoryId">
                   <dl class="fore">
                     <dt>
-                      <a :data-category="item2.categoryName" :data-category2="item2.categoryId">{{item2.categoryName}}</a>
+                      <a :data-category="item2.categoryName"
+                         :data-category2="item2.categoryId">{{item2.categoryName}}</a>
                     </dt>
                     <dd>
                       <em v-for="item3 in item2.categoryChild" :key="item3.categoryId">
@@ -55,13 +56,13 @@
     data() {
       return {
         actIndex: -1,
-        isShow:true,
+        isShow: true,
       }
     },
     mounted() {
       //如果是进入搜索页面，一进入就先隐藏
-      if(this.$route.name=='search'){
-        this.isShow=false
+      if (this.$route.name == 'search') {
+        this.isShow = false
       }
     },
 
@@ -83,14 +84,14 @@
       },
 
       //在搜索页面，鼠标进入离开显示和隐藏category
-      categoryShow(){
-        if (this.$route.name=='search'){
-          this.isShow=true
+      categoryShow() {
+        if (this.$route.name == 'search') {
+          this.isShow = true
         }
       },
-      categoryHidden(){
-        if (this.$route.name=='search'){
-          this.isShow=false
+      categoryHidden() {
+        if (this.$route.name == 'search') {
+          this.isShow = false
         }
       },
 
@@ -112,9 +113,13 @@
             query.category3Id = category3
           }
 
-          //  组件跳转
-          this.$router.push({name: 'search', query: query})
-          this.show=false
+          //  组件跳转,保持params参数
+          if (this.$route.params.key) {
+            this.$router.push({name: 'search', params: this.$route.params, query: query})
+          } else {
+            this.$router.push({name: 'search', query: query})
+          }
+          this.show = false
         }
       }
     }

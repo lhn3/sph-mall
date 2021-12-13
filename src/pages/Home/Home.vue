@@ -46,6 +46,16 @@
       Floor,
       Brand,
     },
+    mounted() {
+      //获取轮播图，floor数据
+      this.$store.dispatch('home/getMessageAction')
+    },
+    computed:{
+      ...mapState({
+        banners:(state)=>state.home.banner,
+        floors:(state)=>state.home.floor
+      })
+    },
     methods: {}
   }
 </script>

@@ -6,6 +6,8 @@ import router from '@/router'
 import {store} from '@/store'
 //导入组件
 import TypeNav from "@/components/TypeNav/TypeNav";
+//导入mock
+import '@/mock/mockServe'
 
 Vue.config.productionTip = false
 

@@ -18,7 +18,7 @@
     },
     mounted() {
       //获取三级联动的数据
-      this.$store.dispatch('home/getMessageAction')
+      this.$store.dispatch('home/getTypeNavAction')
     }
   }
 </script>
