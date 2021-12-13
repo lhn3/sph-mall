@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!--    三级联动-->
-    <TypeNav :categoryList="categoryList"></TypeNav>
+    <TypeNav></TypeNav>
 
     <!--    轮播图-->
     <ListContainer></ListContainer>
@@ -46,17 +46,7 @@
       Floor,
       Brand,
     },
-    methods: {},
-    mounted() {
-      //获取三级联动的数据
-      this.$store.dispatch('home/getMessageAction')
-    },
-    computed: {
-      ...mapState({
-        // state为根，包含所有模块的state
-        categoryList: (state) => state.home.typeNav
-      })
-    }
+    methods: {}
   }
 </script>
 

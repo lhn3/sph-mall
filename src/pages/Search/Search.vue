@@ -1,12 +1,15 @@
 <template>
   <div>
-    搜索
+    <TypeNav></TypeNav>
   </div>
 </template>
 
 <script>
+  import {mapState} from "vuex";
+
   export default {
-    name: "Search"
+    name: "Search",
+
   }
 </script>
 

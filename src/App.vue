@@ -15,6 +15,10 @@
     components: {
       Header,
       Footer
+    },
+    mounted() {
+      //获取三级联动的数据
+      this.$store.dispatch('home/getMessageAction')
     }
   }
 </script>
