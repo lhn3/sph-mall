@@ -114,7 +114,7 @@
           }
 
           //  组件跳转,保持params参数
-          if (this.$route.params.key) {
+          if (this.$route.params.keyword) {
             this.$router.push({name: 'search', params: this.$route.params, query: query})
           } else {
             this.$router.push({name: 'search', query: query})

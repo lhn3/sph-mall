@@ -4,20 +4,7 @@
       <div class="fl key brand">品牌</div>
       <div class="value logos">
         <ul class="logo-list" >
-          <li v-for="item in trademarkList" :key="item.tmId">{{item.tmName}}</li>
-          <li><img src="./images/phone06.png" /></li>
-          <li><img src="./images/phone07.png" /></li>
-          <li><img src="./images/phone08.png" /></li>
-          <li><img src="./images/phone09.png" /></li>
-          <li><img src="./images/phone10.png" /></li>
-          <li><img src="./images/phone11.png" /></li>
-          <li><img src="./images/phone12.png" /></li>
-          <li><img src="./images/phone12.png" /></li>
-          <li><img src="./images/phone14.png" /></li>
-          <li><img src="./images/phone01.png" /></li>
-          <li><img src="./images/phone06.png" /></li>
-<!--          <li><img src="./images/phone07.png" /></li>-->
-<!--          <li><img src="./images/phone02.png" /></li>-->
+          <li v-for="item in trademarkList" :key="item.tmId" @click="getTrademark(item)">{{item.tmName}}</li>
         </ul>
       </div>
       <div class="ext">
@@ -30,7 +17,7 @@
       <div class="fl value">
         <ul class="type-list">
           <li v-for="i in item.attrValueList" :key="i">
-            <a>{{i}}</a>
+            <a @click="getAttr(`${item.attrId}:${i}:${item.attrName}`)">{{i}}</a>
           </li>
         </ul>
       </div>
@@ -51,6 +38,16 @@
         type:Array,
         default:()=>[]
       },
+    },
+    methods:{
+      //获取品牌
+      getTrademark(item){
+        this.$emit('trademark',item)
+      },
+      //获取商品信息
+      getAttr(i){
+        this.$emit('attr',i)
+      }
     }
   }
 </script>
@@ -110,6 +107,7 @@
             color: #e1251b;
             font-style: italic;
             font-size: 14px;
+            cursor: pointer;
 
             img {
               max-width: 100%;
@@ -158,5 +156,8 @@
         }
       }
     }
+  }
+  a{
+    cursor: pointer;
   }
 </style>

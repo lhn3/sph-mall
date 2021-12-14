@@ -2,21 +2,33 @@
   <div class="bread">
     <ul class="fl sui-breadcrumb">
       <li>
-        <a href="#">全部结果</a>
+        <a>全部结果</a>
       </li>
     </ul>
     <ul class="fl sui-tag">
-      <li class="with-x">手机</li>
-      <li class="with-x">iphone<i>×</i></li>
-      <li class="with-x">华为<i>×</i></li>
-      <li class="with-x">OPPO<i>×</i></li>
+      <li class="with-x" v-if="bread.keyword">{{bread.keyword}}<i @click="remove('keyword')">×</i></li>
+      <li class="with-x" v-if="bread.categoryName">{{bread.categoryName}}<i @click="remove('categoryName')">×</i></li>
+      <li class="with-x" v-if="bread.trademark">{{bread.trademark}}<i @click="remove('trademark')">×</i></li>
+<!--      <li class="with-x" v-if="bread.props">{{bread.props}}<i @click="remove('props')">×</i></li>-->
+      <li class="with-x" v-for="(prop,index) in bread.props" :key="index">{{prop}}<i @click="remove(index)">×</i></li>
     </ul>
   </div>
 </template>
 
 <script>
   export default {
-    name: "Bread"
+    name: "Bread",
+    props:{
+      bread:{
+        type:Object,
+        default:()=>({})
+      }
+    },
+    methods:{
+      remove(info){
+        this.$emit('removeBread',info)
+      }
+    }
   }
 </script>
 
