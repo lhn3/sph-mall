@@ -3,23 +3,17 @@
     <div class="sui-navbar">
       <div class="navbar-inner filter">
         <ul class="sui-nav">
-          <li class="active">
-            <a href="#">综合</a>
-          </li>
-          <li>
-            <a href="#">销量</a>
-          </li>
-          <li>
-            <a href="#">新品</a>
-          </li>
-          <li>
-            <a href="#">评价</a>
-          </li>
-          <li>
-            <a href="#">价格⬆</a>
-          </li>
-          <li>
-            <a href="#">价格⬇</a>
+          <li
+            :class="{'active':isShow(item.id)}"
+            @click="changeOrders(item.id)"
+            v-for="item in message"
+            :key="item.id"
+          >
+            <a>{{item.title}}
+              <span v-if="isShow(item.id)">
+                <i :class="{'iconfont':true, 'icon-expand_less':isShow('desc'),'icon-expand_more':isShow('asc') }"/>
+              </span>
+            </a>
           </li>
         </ul>
       </div>
@@ -90,10 +84,42 @@
 <script>
   export default {
     name: "Detail",
+    data(){
+      return{
+        message:[
+          {id:'1',title:'综合'},
+          {id:'2',title:'价格'}
+        ],
+        //1:desc,1:asc;2:desc,2:asc
+        order:'1:desc'
+      }
+    },
     props:{
       goodsList:{
         type:Array,
         default:()=>[]
+      },
+      orders:{
+        type:String,
+        default:'1:desc'
+      }
+    },
+    beforeMount() {
+      this.order=this.orders
+    },
+    methods:{
+      //点击切换order
+      changeOrders(id){
+        if (id==1){
+          this.order=='1:desc'?this.order='1:asc':this.order='1:desc'
+        }else {
+          this.order=='2:desc'?this.order='2:asc':this.order='2:desc'
+        }
+        this.$emit('changeOrder',this.order)
+      },
+      //是否显示箭头或是背景色
+      isShow(info){
+        return this.order.indexOf(info)!=-1
       }
     }
   }
@@ -356,4 +382,5 @@
       }
     }
   }
+  a{cursor: pointer}
 </style>

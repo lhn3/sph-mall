@@ -16,7 +16,7 @@
                 @attr="attr"/>
 
         <!--主要部分-->
-        <Detail :goodsList="getGoodsList"/>
+        <Detail :goodsList="getGoodsList" :orders="searchDate.order" @changeOrder="changeOrder"/>
       </div>
     </div>
   </div>
@@ -45,7 +45,7 @@
           // //params参数
           // keyword: "",
           //排序
-          order: "",
+          order: "1:desc",
           //分页器用的:代表的是当前是第几页
           pageNo: 1,
           //代表的是每一个展示数据个数
@@ -67,8 +67,6 @@
     beforeMount() {
       //挂载完毕前执行一次
       this.toSearch()
-    },
-    mounted() {
     },
     computed: {
       ...mapGetters('search', ['getAttrsList', 'getGoodsList', 'getTrademarkList']),
@@ -131,6 +129,12 @@
           this.bread.props.push(prop)
         }
         this.toSearch()
+      },
+
+      //排序
+      changeOrder(order){
+        this.searchDate.order=order
+        this.toSearch()
       }
     },
 
@@ -147,7 +151,6 @@
 <style lang="less" scoped>
   .main {
     margin: 10px 0;
-
     .py-container {
       width: 1200px;
       margin: 0 auto;

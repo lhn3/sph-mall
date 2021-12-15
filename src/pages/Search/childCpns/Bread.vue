@@ -9,7 +9,6 @@
       <li class="with-x" v-if="bread.keyword">{{bread.keyword}}<i @click="remove('keyword')">×</i></li>
       <li class="with-x" v-if="bread.categoryName">{{bread.categoryName}}<i @click="remove('categoryName')">×</i></li>
       <li class="with-x" v-if="bread.trademark">{{bread.trademark}}<i @click="remove('trademark')">×</i></li>
-<!--      <li class="with-x" v-if="bread.props">{{bread.props}}<i @click="remove('props')">×</i></li>-->
       <li class="with-x" v-for="(prop,index) in bread.props" :key="index">{{prop}}<i @click="remove(index)">×</i></li>
     </ul>
   </div>
