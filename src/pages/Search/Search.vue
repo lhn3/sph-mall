@@ -16,7 +16,7 @@
                 @attr="attr"/>
 
         <!--主要部分-->
-        <Detail
+        <GoodsList
                 :goodsList="getGoodsList"
                 :orders="searchDate.order"
                 @changeOrder="changeOrder"
@@ -32,7 +32,7 @@
   import {mapGetters} from 'vuex'
   import Bread from './childCpns/Bread'
   import SearchSelector from './childCpns/SearchSelector'
-  import Detail from "./childCpns/Detail";
+  import GoodsList from "./childCpns/GoodsList";
 
   export default {
     name: 'Search',
@@ -69,7 +69,7 @@
     components: {
       Bread,
       SearchSelector,
-      Detail
+      GoodsList
     },
     beforeMount() {
       //挂载完毕前执行一次

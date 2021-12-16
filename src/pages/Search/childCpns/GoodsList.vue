@@ -22,8 +22,8 @@
       <ul class="yui3-g">
         <li class="yui3-u-1-5" v-for="item in goodsList" :key="item.id">
           <div class="list-wrap">
-            <div class="p-img">
-              <a href="item.html" target="_blank"><img :src="item.defaultImg"/></a>
+            <div class="p-img" @click="toDetail(item.id)">
+              <a><img :src="item.defaultImg"/></a>
             </div>
             <div class="price">
               <strong>
@@ -32,8 +32,8 @@
                 <i>{{item.price}}</i>
               </strong>
             </div>
-            <div class="attr">
-              <a target="_blank" href="item.html" :title="item.title">
+            <div class="attr" @click="toDetail(item.id)">
+              <a :title="item.title">
                 {{item.title}}
               </a>
             </div>
@@ -56,7 +56,7 @@
 
 <script>
   export default {
-    name: "Detail",
+    name: "GoodsList",
     data(){
       return{
         message:[
@@ -105,6 +105,10 @@
     //  页码切换
       topage(page){
         this.$emit('toPage',page)
+      },
+      //  进入详情页
+      toDetail(id){
+        this.$router.push({name:'detail',params:{goodsId:id}})
       }
     }
   }

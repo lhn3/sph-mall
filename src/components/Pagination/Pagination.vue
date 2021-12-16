@@ -4,9 +4,9 @@
 <!--    当前页pageNo等于第一页不显示-->
     <button v-if="pageInfo.pageNo>1" @click="toLastPage">上一页</button>
 <!--    当前页pageNo要大于con页码范围的左边个数时显示-->
-    <button v-if="pageInfo.pageNo>(pageInfo.con - 1) / 2 && pageInfo.con < pageTotal" @click="toFirstPage">1</button>
+    <button v-if="pageInfo.pageNo>(pageInfo.con - 1) / 2 + 1 && pageInfo.con < pageTotal" @click="toFirstPage">1</button>
 <!--    比第一页显示多加一位，产生页面差距再显示-->
-    <button v-if="pageInfo.pageNo>((pageInfo.con - 1) / 2) + 1 && pageInfo.con < pageTotal">···</button>
+    <button v-if="pageInfo.pageNo>(pageInfo.con - 1) / 2 + 2 && pageInfo.con < pageTotal">···</button>
 
     <!-- 中间部分 只显示以当前页数pageNo两边的con范围页数-->
     <button v-for="num in pageNumbers.endPage" v-if="num >= pageNumbers.startPage"

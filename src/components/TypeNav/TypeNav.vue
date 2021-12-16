@@ -61,7 +61,7 @@
     },
     mounted() {
       //如果是进入搜索页面，一进入就先隐藏
-      if (this.$route.name == 'search') {
+      if (this.$route.name !== 'home') {
         this.isShow = false
       }
     },
@@ -85,12 +85,12 @@
 
       //在搜索页面，鼠标进入离开显示和隐藏category
       categoryShow() {
-        if (this.$route.name == 'search') {
+        if (this.$route.name !== 'home') {
           this.isShow = true
         }
       },
       categoryHidden() {
-        if (this.$route.name == 'search') {
+        if (this.$route.name !== 'home') {
           this.isShow = false
         }
       },
