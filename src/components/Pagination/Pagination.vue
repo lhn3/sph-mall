@@ -2,20 +2,23 @@
   <div class="pagination">
     <!-- 上 -->
 <!--    当前页pageNo等于第一页不显示-->
-    <button v-if="pageInfo.pageNo>1">上一页</button>
+    <button v-if="pageInfo.pageNo>1" @click="toLastPage">上一页</button>
 <!--    当前页pageNo要大于con页码范围的左边个数时显示-->
-    <button v-if="pageInfo.pageNo>(pageInfo.con - 1) / 2">1</button>
+    <button v-if="pageInfo.pageNo>(pageInfo.con - 1) / 2 && pageInfo.con < pageTotal" @click="toFirstPage">1</button>
 <!--    比第一页显示多加一位，产生页面差距再显示-->
-    <button v-if="pageInfo.pageNo>((pageInfo.con - 1) / 2) + 1">···</button>
+    <button v-if="pageInfo.pageNo>((pageInfo.con - 1) / 2) + 1 && pageInfo.con < pageTotal">···</button>
+
     <!-- 中间部分 只显示以当前页数pageNo两边的con范围页数-->
-    <button v-for="num in pageNumbers.endPage" v-if="num >= pageNumbers.startPage" :key="num">
+    <button v-for="num in pageNumbers.endPage" v-if="num >= pageNumbers.startPage"
+            :key="num" @click="toOtherPage(num)"
+            :class="{'active':pageNo==num}">
       {{num}}
     </button>
 
     <!-- 下 与上相反逻辑-->
-    <button v-if="pageInfo.pageNo<pageTotal-((pageInfo.con - 1) / 2) - 1">···</button>
-    <button v-if="pageInfo.pageNo<pageTotal-(pageInfo.con - 1) / 2">{{pageTotal}}</button>
-    <button v-if="pageInfo.pageNo<pageTotal">下一页</button>
+    <button v-if="pageInfo.pageNo<pageTotal-((pageInfo.con - 1) / 2) - 1 && pageInfo.con < pageTotal">···</button>
+    <button v-if="pageInfo.pageNo<pageTotal-(pageInfo.con - 1) / 2 && pageInfo.con < pageTotal" @click="toEndPage">{{pageTotal}}</button>
+    <button v-if="pageInfo.pageNo<pageTotal" @click="toNextPage">下一页</button>
 
     <button style="margin-left: 30px">共 {{pageInfo.total}} 条</button>
   </div>
@@ -24,6 +27,11 @@
 <script>
   export default {
     name: "Pagination",
+    data(){
+      return{
+        pageNo:0
+      }
+    },
     props: {
       //{pageNo:1,pageSize: 10,total:101,con:5}
       pageInfo: {
@@ -31,11 +39,11 @@
         default: () => ({})
       }
     },
-    mounted() {
-    },
     computed: {
       //总页数
       pageTotal() {
+        //记录当前页，不改变单向数据流
+        this.pageNo=this.pageInfo.pageNo
         return Math.ceil(this.pageInfo.total / this.pageInfo.pageSize)
       },
 
@@ -66,7 +74,37 @@
         return {startPage, endPage}
       }
     },
-    methods: {}
+    methods: {
+      pageEmit(info){
+        this.$emit('topage',info)
+      },
+      //上一页
+      toLastPage(){
+        this.pageNo-=1
+        this.pageEmit(this.pageNo)
+      },
+      //下一页
+      toNextPage(){
+        this.pageNo+=1
+        this.pageEmit(this.pageNo)
+      },
+      //第一页
+      toFirstPage(){
+        this.pageNo=1
+        this.pageEmit(this.pageNo)
+      },
+      //点击的页数
+      toOtherPage(num){
+        this.pageNo=num
+        this.pageEmit(this.pageNo)
+      },
+      //最后一页
+      toEndPage(){
+        this.pageNo=this.pageTotal
+        this.pageEmit(this.pageNo)
+      },
+
+    }
   };
 </script>
 

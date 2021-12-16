@@ -14,6 +14,9 @@ export default {
     },
     getTrademarkList(sate) {
       return sate.searchInfo.trademarkList ?? []
+    },
+    getTotal(sate) {
+      return sate.searchInfo.total ?? 0
     }
   },
   mutations: {

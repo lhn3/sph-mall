@@ -20,7 +20,8 @@
                 :goodsList="getGoodsList"
                 :orders="searchDate.order"
                 @changeOrder="changeOrder"
-                :pageInfo="{pageNo:6,pageSize: 10,total:101,con:5}"/>
+                :pageInfo="{pageNo:searchDate.pageNo,pageSize: searchDate.pageSize,total:getTotal,con}"
+                @toPage="toPage"/>
       </div>
     </div>
   </div>
@@ -61,6 +62,8 @@
         },
       //  面包屑
         bread: {props:[]},
+      //数据总数
+        con:5
       }
     },
     components: {
@@ -73,7 +76,7 @@
       this.toSearch()
     },
     computed: {
-      ...mapGetters('search', ['getAttrsList', 'getGoodsList', 'getTrademarkList']),
+      ...mapGetters('search', ['getAttrsList', 'getGoodsList', 'getTrademarkList','getTotal']),
     },
     methods:{
       //获取搜索页面数据
@@ -138,6 +141,12 @@
       //排序
       changeOrder(order){
         this.searchDate.order=order
+        this.toSearch()
+      },
+
+    //  页码切换
+      toPage(page){
+        Vue.set(this.searchDate,'pageNo',page)
         this.toSearch()
       }
     },

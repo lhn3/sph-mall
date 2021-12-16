@@ -49,7 +49,7 @@
       </ul>
     </div>
 <!--    分页-->
-    <Pagination :pageInfo="pageInfo"/>
+    <Pagination :pageInfo="pageInfo" @topage="topage"/>
   </div>
 
 </template>
@@ -102,6 +102,10 @@
         }
         this.$emit('changeOrder',this.order)
       },
+    //  页码切换
+      topage(page){
+        this.$emit('toPage',page)
+      }
     }
   }
 </script>
