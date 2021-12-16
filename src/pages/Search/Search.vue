@@ -16,7 +16,11 @@
                 @attr="attr"/>
 
         <!--主要部分-->
-        <Detail :goodsList="getGoodsList" :orders="searchDate.order" @changeOrder="changeOrder"/>
+        <Detail
+                :goodsList="getGoodsList"
+                :orders="searchDate.order"
+                @changeOrder="changeOrder"
+                :pageInfo="{pageNo:6,pageSize: 10,total:101,con:5}"/>
       </div>
     </div>
   </div>

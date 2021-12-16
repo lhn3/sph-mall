@@ -48,35 +48,8 @@
         </li>
       </ul>
     </div>
-    <div class="fr page">
-      <div class="sui-pagination clearfix">
-        <ul>
-          <li class="prev disabled">
-            <a href="#">«上一页</a>
-          </li>
-          <li class="active">
-            <a href="#">1</a>
-          </li>
-          <li>
-            <a href="#">2</a>
-          </li>
-          <li>
-            <a href="#">3</a>
-          </li>
-          <li>
-            <a href="#">4</a>
-          </li>
-          <li>
-            <a href="#">5</a>
-          </li>
-          <li class="dotted"><span>...</span></li>
-          <li class="next">
-            <a href="#">下一页»</a>
-          </li>
-        </ul>
-        <div><span>共10页&nbsp;</span></div>
-      </div>
-    </div>
+<!--    分页-->
+    <Pagination :pageInfo="pageInfo"/>
   </div>
 
 </template>
@@ -102,10 +75,22 @@
       orders:{
         type:String,
         default:'1:desc'
+      },
+      pageInfo:{
+        type:Object,
+        default:()=>({})
       }
     },
     beforeMount() {
       this.order=this.orders
+    },
+    computed:{
+      //是否显示箭头或是背景色
+      isShow(){
+        return function (info) {
+          return this.order.indexOf(info)!=-1
+        }
+      }
     },
     methods:{
       //点击切换order
@@ -117,10 +102,6 @@
         }
         this.$emit('changeOrder',this.order)
       },
-      //是否显示箭头或是背景色
-      isShow(info){
-        return this.order.indexOf(info)!=-1
-      }
     }
   }
 </script>
