@@ -1,8 +1,12 @@
 <template>
-  <div class="swiper-container">
+  <div class="swiper-container" ref="mySwiper">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" v-for="item in skuImageList" :key="item.id" @click="electImg(item.id)">
-        <img :src="item.imgUrl">
+      <div class="swiper-slide"
+           v-for="item in skuImageList"
+           :key="item.id"
+           @click="electImg(item.id)"
+           >
+        <img :src="item.imgUrl" :class="{'active':index==item.id}">
       </div>
     </div>
     <div class="swiper-button-next"></div>
@@ -14,6 +18,11 @@
   import Swiper from 'swiper'
   export default {
     name: "ImageList",
+    data(){
+      return{
+        index:1
+      }
+    },
     props:{
       skuImageList:{
         type:Array,
@@ -22,7 +31,29 @@
     },
     methods:{
       electImg(id){
+        this.index=id
         this.$emit('showImg',id)
+      }
+    },
+    watch:{
+      //监听传来的数据变化，再实例化swiper
+      skuImageList: {
+        handler(newValue,oldValue){
+          this.index=this.skuImageList[0].id
+          this.$nextTick(()=>{
+            let mySwiper = new Swiper (this.$refs.mySwiper, {
+              // 如果需要前进后退按钮
+              navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+              },
+              //以此显示几个
+              slidesPerView:3,
+              //一组几个
+              // slidesPerGroup:3
+            })
+          })
+        },
       }
     }
   }
@@ -47,6 +78,7 @@
         width: 50px;
         height: 50px;
         display: block;
+        margin: 0 auto;
 
         &.active {
           border: 2px solid #f60;

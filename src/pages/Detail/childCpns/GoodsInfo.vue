@@ -58,9 +58,13 @@
         <div class="choose">
           <div class="chooseArea">
             <div class="choosed"></div>
-            <dl v-for="items in spuSaleAttrList" :key="items.id">
+            <dl v-for="items in mySpu" :key="items.id">
               <dt class="title">{{items.saleAttrName}}</dt>
-              <dd changepirce="0" :class="{'active':item.isChecked==1}" v-for="item in items.spuSaleAttrValueList" :key="item.id">
+              <dd changepirce="0"
+                  :class="{'active':item.isChecked==1}"
+                  v-for="item in items.spuSaleAttrValueList"
+                  :key="item.id"
+                  @click="changeInfo(items,item)">
                 {{item.saleAttrValueName}}
               </dd>
             </dl>
@@ -88,7 +92,9 @@
     name: "GoodsInfo",
     data(){
       return{
-        bigImg:''
+        bigImg:'',
+        //先保存一份方便改变数据
+        mySpu:[]
       }
     },
     props:{
@@ -108,6 +114,9 @@
     watch:{
       skuInfo(){
         this.bigImg=this.skuInfo.skuImageList[0].imgUrl
+      },
+      spuSaleAttrList(){
+        this.mySpu=this.spuSaleAttrList
       }
     },
     components:{
@@ -121,6 +130,13 @@
           return item.id==id
         })
         this.bigImg=bigImgObj.imgUrl
+      },
+      //选择不同的商品属性
+      changeInfo(items,item){
+        items.spuSaleAttrValueList.forEach(i=>{
+          i.isChecked=0
+        })
+        item.isChecked=1
       }
     }
   }
@@ -347,5 +363,8 @@
         }
       }
     }
+  }
+  dd{
+    cursor: pointer;
   }
 </style>
