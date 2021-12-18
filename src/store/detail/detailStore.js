@@ -4,18 +4,14 @@ export default {
   namespaced: true,
   state: {
     categoryView: {},
-    price: '',
     skuInfo: {},
-    spuSaleAttrList: {},
+    spuSaleAttrList: [],
     valuesSkuJson: {}
   },
   getters: {},
   mutations: {
     saveCategoryView(state, payload) {
       state.categoryView = payload
-    },
-    savePrice(state, payload) {
-      state.price = payload
     },
     saveSkuInfo(state, payload) {
       state.skuInfo = payload
@@ -34,7 +30,6 @@ export default {
       console.log(detail.data)
       const {categoryView, price, skuInfo, spuSaleAttrList, valuesSkuJson} = detail.data
       action.commit('saveCategoryView', categoryView)
-      action.commit('savePrice', price)
       action.commit('saveSkuInfo', skuInfo)
       action.commit('saveSpuSaleAttrList', spuSaleAttrList)
       action.commit('saveValuesSkuJson', valuesSkuJson)

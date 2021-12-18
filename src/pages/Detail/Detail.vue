@@ -4,7 +4,7 @@
     <TypeNav/>
 
     <!-- 主要内容区域 -->
-    <GoodsInfo/>
+    <GoodsInfo :categoryView="categoryView" :skuInfo="skuInfo" :spuSaleAttrList="spuSaleAttrList"/>
 
     <!-- 内容详情页 -->
     <ProductDetail/>
@@ -34,7 +34,7 @@
       this.$store.dispatch('detail/getDetailAction',this.goodsId)
     },
     computed:{
-      ...mapState('detail',['categoryView', 'price', 'skuInfo', 'spuSaleAttrList','valuesSkuJson'])
+      ...mapState('detail',['categoryView', 'skuInfo', 'spuSaleAttrList','valuesSkuJson'])
     }
   }
 </script>
