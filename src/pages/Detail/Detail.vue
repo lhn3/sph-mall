@@ -12,6 +12,7 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   import GoodsInfo from "./childCpns/GoodsInfo";
   import ProductDetail from './childCpns/ProductDetail'
 
@@ -27,7 +28,13 @@
       ProductDetail
     },
     beforeMount() {
-      this.goodsId=this.$route.params
+      this.goodsId=this.$route.params.goodsId
+    },
+    mounted(){
+      this.$store.dispatch('detail/getDetailAction',this.goodsId)
+    },
+    computed:{
+      ...mapState('detail',['categoryView', 'price', 'skuInfo', 'spuSaleAttrList','valuesSkuJson'])
     }
   }
 </script>

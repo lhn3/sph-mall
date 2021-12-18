@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import homeStore from "@/store/home/homeStore";
 import searchStore from "@/store/search/searchStore";
 import userStore from "@/store/user/userStore";
+import detailStore from "@/store/detail/detailStore";
 //安装插件
 Vue.use(Vuex)
 
@@ -15,6 +16,7 @@ export const store = new Vuex.Store({
   modules: {
     home: homeStore,
     search: searchStore,
+    detail: detailStore,
     user: userStore
   }
 })

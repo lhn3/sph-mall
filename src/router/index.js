@@ -81,5 +81,9 @@ export default new Router({
       // props:{a:1,b:2},
       // props:($route)=>({params:$route.params,query:$route.query})
     },
-  ]
+  ],
+  //路由跳转滚动条回到顶部
+  scrollBehavior(to,from,savedPosition){
+    return {y:0}
+  }
 })
