@@ -15,7 +15,7 @@
         </div>
         <div class="right-gocart">
           <a @click="toDeTail" class="sui-btn btn-xlarge">查看商品详情</a>
-          <a href="javascript:" >去购物车结算 > </a>
+          <a @click="toShopCart" >去购物车结算 > </a>
         </div>
       </div>
     </div>
@@ -41,8 +41,13 @@
       cache.delCache('updateCart')
     },
     methods:{
+      //返回详情页
       toDeTail(){
         this.$router.back()
+      },
+      //前往购物车
+      toShopCart(){
+        this.$router.push({name:'shopCart'})
       }
     }
   }

@@ -10,6 +10,7 @@ const Register = () => import('@/pages/Register/Register')
 const Search = () => import('@/pages/Search/Search')
 const Detail = () => import('@/pages/Detail/Detail')
 const AddCart = () => import('@/pages/Detail/childCpns/AddCartSuccess')
+const ShopCart = () => import('@/pages/ShopCart/ShopCart')
 
 //重写Router原形上的push,replace方法
 let oldPush=Router.prototype.push
@@ -64,22 +65,6 @@ export default new Router({
       }
     },
     {
-      path:'/detail/:goodsId',
-      name:'detail',
-      component:Detail,
-      meta:{
-        showFooter:true
-      }
-    },
-    {
-      path:'/AddCart',
-      name:'addCart',
-      component:AddCart,
-      meta:{
-        showFooter:true
-      }
-    },
-    {
       path:'/search/:keyword?',
       name:'search',
       component:Search,
@@ -90,6 +75,30 @@ export default new Router({
       // props:{a:1,b:2},
       // props:($route)=>({params:$route.params,query:$route.query})
     },
+    {
+      path:'/detail/:goodsId',
+      name:'detail',
+      component:Detail,
+      meta:{
+        showFooter:true
+      }
+    },
+    {
+      path:'/addCart',
+      name:'addCart',
+      component:AddCart,
+      meta:{
+        showFooter:true
+      }
+    },
+    {
+      path: '/shopCart',
+      name: 'shopCart',
+      component:ShopCart,
+      meta:{
+        showFooter:true
+      },
+    }
   ],
   //路由跳转滚动条回到顶部
   scrollBehavior(to,from,savedPosition){
