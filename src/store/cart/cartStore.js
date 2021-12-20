@@ -3,7 +3,7 @@ import {getCartList} from "@/serve/cart/cartServe";
 export default {
   namespaced: true,
   state: {
-    cartList: {}
+    cartList: [],
   },
   getters: {},
   mutations: {
@@ -16,7 +16,6 @@ export default {
     async getCartAction(action) {
       let cartList=await getCartList()
       action.commit('saveCartList',cartList.data)
-      console.log(cartList)
     }
   },
 }

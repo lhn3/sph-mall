@@ -2,6 +2,7 @@ import axios from 'axios'
 //导入进度条插件
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
+import {store} from '@/store'
 
 //封装axios-------------------------------------------------------------------------
 export function request(data) {
@@ -14,6 +15,8 @@ export function request(data) {
   //请求拦截器
   requests.interceptors.request.use(config => {
     nprogress.start()
+    //请求头携带uuid
+    config.headers.userTempId=store.state.uid
     console.log('请求拦截')
     return config
   },error => {

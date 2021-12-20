@@ -25,8 +25,14 @@
       CartBody,
       CartTool
     },
-    beforeMount() {
-      this.$store.dispatch('cart/getCartAction')
+    mounted() {
+      this.getCartInfo()
+    },
+    methods:{
+      // 获取购物车数据
+      getCartInfo(){
+        this.$store.dispatch('cart/getCartAction')
+      }
     }
   }
 </script>
