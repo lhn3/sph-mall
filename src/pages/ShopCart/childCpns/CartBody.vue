@@ -1,6 +1,6 @@
 <template>
   <div class="cart-body">
-    <ul class="cart-list" v-for="(item,index) in cartList" :key="item.id">
+    <ul class="cart-list" v-for="(item,index) in cartLists" :key="item.id">
       <li class="cart-list-con1">
         <input type="checkbox" name="chk_list" :checked="item.isChecked==1">
       </li>
@@ -46,8 +46,8 @@
         default: () => []
       }
     },
-    mounted() {
-      this.cartLists = this.cartList
+    methods:{
+
     },
     computed: {
       // 单个商品总价
@@ -56,22 +56,35 @@
           return (this.cartList[index].skuNum * this.cartList[index].cartPrice).toFixed(2) + '￥'
         }
       },
-      //选择的商品总价
-      totalPrice() {
+
+      //选择的商品总价,选择商品的个数,是否全选
+      changeList() {
+        //总价
         let price = 0
+        //选择的商品个数
+        let selectNum=0
+        //全选框是否勾选
+        let checkedAll=false
         this.cartLists.forEach(item => {
           if (item.isChecked == 1) {
+            selectNum+=1
             price += item.skuNum * item.cartPrice
           }
         })
-        return price.toFixed(2)
+        if (selectNum==this.cartList.length){
+          checkedAll=true
+        }
+        return {price:price.toFixed(2),selectNum,checkedAll}
       }
     },
     watch:{
+      cartList(){
+        this.cartLists = this.cartList
+      },
       cartLists:{
         handler(){
         //  vueX中修改总价格和全选按钮
-          this.$store.commit('cart/saveTotalPrice',this.totalPrice)
+          this.$store.commit('cart/saveChangeList',this.changeList)
         },
         deep:true,
         immediate:true

@@ -5,20 +5,19 @@ export default {
   state: {
     cartList: [],
     totalPrice:0,
-    clickAll:true
+    selectNum:0,
+    checkedAll:true,
   },
   getters: {},
   mutations: {
     saveCartList(state,payload){
       state.cartList=payload
     },
-    saveTotalPrice(state,payload){
-      state.totalPrice=payload
+    saveChangeList(state,payload){
+      state.totalPrice=payload.price
+      state.checkedAll=payload.checkedAll
+      state.selectNum=payload.selectNum
     },
-    saveClickAll(state,payload){
-      state.clickAll=payload
-    },
-
   },
   actions: {
     //获取商品详情页信息
