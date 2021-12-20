@@ -15,7 +15,7 @@
       </div>
       <div class="sumprice">
         <em>总价（不含运费） ：</em>
-        <i class="summoney">0</i>
+        <i class="summoney">{{totalPrice}}</i>
       </div>
       <div class="sumbtn">
         <a class="sum-btn" href="###" target="_blank">结算</a>
@@ -26,8 +26,12 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   export default {
-    name: "CartTool"
+    name: "CartTool",
+    computed:{
+      ...mapState('cart',['totalPrice'])
+    }
   }
 </script>
 

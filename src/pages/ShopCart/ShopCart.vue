@@ -6,7 +6,7 @@
     <CartHeader/>
 
     <!--      商品列表-->
-    <CartBody/>
+    <CartBody :cartList="cartList"/>
 
     <!--    全选，结算-->
     <CartTool/>
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   import CartHeader from './childCpns/CartHeater'
   import CartBody from './childCpns/CartBody'
   import CartTool from "./childCpns/CartTool";
@@ -32,7 +33,10 @@
       // 获取购物车数据
       getCartInfo(){
         this.$store.dispatch('cart/getCartAction')
-      }
+      },
+    },
+    computed:{
+      ...mapState('cart',['cartList'])
     }
   }
 </script>
