@@ -9,6 +9,7 @@ const Login = () => import('@/pages/Login/Login')
 const Register = () => import('@/pages/Register/Register')
 const Search = () => import('@/pages/Search/Search')
 const Detail = () => import('@/pages/Detail/Detail')
+const AddCart = () => import('@/pages/Detail/childCpns/AddCartSuccess')
 
 //重写Router原形上的push,replace方法
 let oldPush=Router.prototype.push
@@ -66,6 +67,14 @@ export default new Router({
       path:'/detail/:goodsId',
       name:'detail',
       component:Detail,
+      meta:{
+        showFooter:true
+      }
+    },
+    {
+      path:'/AddCart',
+      name:'addCart',
+      component:AddCart,
       meta:{
         showFooter:true
       }

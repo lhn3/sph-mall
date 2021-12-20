@@ -73,7 +73,7 @@
             <div class="controls">
               <input autocomplete="off" class="itxt" v-model="num" @change="inputNum">
               <a class="plus" @click="num++">+</a>
-              <a class="mins" @click="num--">-</a>
+              <a class="mins" @click="num > 1 ? num-- : num = 1">-</a>
             </div>
             <div class="add">
               <a @click="toMark">加入购物车</a>
@@ -88,6 +88,7 @@
 <script>
   import ImageList from './ImageList'
   import Zoom from './Zoom'
+  import cache from '@/utils/cache.js'
   export default {
     name: "GoodsInfo",
     data(){
@@ -126,6 +127,20 @@
       ImageList,
       Zoom
     },
+    computed:{
+      //选择的商品参数
+      spu(){
+        let info='/'
+        this.mySpu.forEach(item=>{
+          item.spuSaleAttrValueList.forEach(i=>{
+            if (i.isChecked==1){
+              info+=i.saleAttrValueName+'/'
+            }
+          })
+        })
+        return info
+      },
+    },
     methods:{
       //放大镜图片
       showImg(id){
@@ -153,9 +168,18 @@
         }
       },
       //加入购物车
-      toMark(){
-        //商品Id，商品数量，商品属性
-        console.log('加入成功')
+      async toMark(){
+        //商品Id，商品数量
+        let info=this.spu
+        let res=await this.$store.dispatch('detail/updateCartAction',{id:this.skuInfo.id,num:this.num})
+        if (res.code==200){
+          //本地储存
+          cache.setCache('updateCart',
+              {id:this.skuInfo.id,title:this.skuInfo.skuName,img:this.skuInfo.skuDefaultImg,spu:info,num:this.num})
+          this.$router.push({name:'addCart'})
+        }else {
+          alert('加入购物车失败')
+        }
       }
     }
   }

@@ -6,3 +6,11 @@ export const getDetail = (id) => {
     url: '/item/'+id,
   })
 }
+
+//加入购物车
+export const updateCart = (data) => {
+  return request({
+    method:'post',
+    url: `/cart/addToCart/${data.id}/${data.num}`,
+  })
+}

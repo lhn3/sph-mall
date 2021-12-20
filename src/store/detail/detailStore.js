@@ -1,4 +1,4 @@
-import {getDetail} from "@/serve/detail/detailServe";
+import {getDetail, updateCart} from "@/serve/detail/detailServe";
 
 export default {
   namespaced: true,
@@ -33,5 +33,9 @@ export default {
       action.commit('saveSpuSaleAttrList', spuSaleAttrList)
       action.commit('saveValuesSkuJson', valuesSkuJson)
     },
+    async updateCartAction(action,payload){
+      const res=await updateCart(payload)
+      return res
+    }
   },
 }
