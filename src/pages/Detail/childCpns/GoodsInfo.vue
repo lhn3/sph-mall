@@ -71,12 +71,12 @@
           </div>
           <div class="cartWrap">
             <div class="controls">
-              <input autocomplete="off" class="itxt">
-              <a href="javascript:" class="plus">+</a>
-              <a href="javascript:" class="mins">-</a>
+              <input autocomplete="off" class="itxt" v-model="num" @change="inputNum">
+              <a class="plus" @click="num++">+</a>
+              <a class="mins" @click="num--">-</a>
             </div>
             <div class="add">
-              <a href="javascript:">加入购物车</a>
+              <a @click="toMark">加入购物车</a>
             </div>
           </div>
         </div>
@@ -94,7 +94,8 @@
       return{
         bigImg:'',
         //先保存一份方便改变数据
-        mySpu:[]
+        mySpu:[],
+        num:1
       }
     },
     props:{
@@ -112,12 +113,14 @@
       }
     },
     watch:{
+      //初始加载的大图图片
       skuInfo(){
         this.bigImg=this.skuInfo.skuImageList[0].imgUrl
       },
+      //保存一份数据方便更改数据内容，单向数据流
       spuSaleAttrList(){
         this.mySpu=this.spuSaleAttrList
-      }
+      },
     },
     components:{
       ImageList,
@@ -131,12 +134,28 @@
         })
         this.bigImg=bigImgObj.imgUrl
       },
+
       //选择不同的商品属性
       changeInfo(items,item){
         items.spuSaleAttrValueList.forEach(i=>{
           i.isChecked=0
         })
         item.isChecked=1
+      },
+
+      //输入的数量校验
+      inputNum(e){
+        let value=e.target.value*1
+        if (isNaN(value) || value<1){
+          this.num=1
+        }else {
+          this.num=parseInt(value)
+        }
+      },
+      //加入购物车
+      toMark(){
+        //商品Id，商品数量，商品属性
+        console.log('加入成功')
       }
     }
   }
@@ -366,5 +385,19 @@
   }
   dd{
     cursor: pointer;
+  }
+  a{
+    cursor: pointer;
+  }
+
+  /*取消number类型的input上下点击按钮*/
+  /*input::-webkit-outer-spin-button,*/
+  /*input::-webkit-inner-spin-button{*/
+  /*  -webkit-appearance: none !important;*/
+  /*}*/
+
+  /*取消input选中后的边框*/
+  input{
+    outline:none;
   }
 </style>

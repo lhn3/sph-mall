@@ -27,8 +27,7 @@ export default {
     //获取商品详情页信息
     async getDetailAction(action, payload) {
       const detail = await getDetail(payload)
-      console.log(detail.data)
-      const {categoryView, price, skuInfo, spuSaleAttrList, valuesSkuJson} = detail.data
+      const {categoryView, skuInfo, spuSaleAttrList, valuesSkuJson} = detail.data
       action.commit('saveCategoryView', categoryView)
       action.commit('saveSkuInfo', skuInfo)
       action.commit('saveSpuSaleAttrList', spuSaleAttrList)
