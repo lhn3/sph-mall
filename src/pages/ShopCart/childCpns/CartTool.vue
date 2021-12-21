@@ -1,11 +1,11 @@
 <template>
   <div class="cart-tool">
     <div class="select-all">
-      <input class="chooseAll" type="checkbox" :checked="checkedAll">
+      <input class="chooseAll" type="checkbox" :checked="checkedAll" @change="changeCheckedAll(checkedAll)">
       <span>全选</span>
     </div>
     <div class="option">
-      <a href="#none">删除选中的商品</a>
+      <a @click="delSelectCartGoods">删除选中的商品</a>
       <a href="#none">移到我的关注</a>
       <a href="#none">清除下柜商品</a>
     </div>
@@ -30,7 +30,21 @@
   export default {
     name: "CartTool",
     computed:{
-      ...mapState('cart',['totalPrice','selectNum','checkedAll'])
+      ...mapState('cart',['totalPrice','selectNum','checkedAll','selectId','allId'])
+    },
+    methods:{
+      //全选按钮改变
+      changeCheckedAll(isCheck){
+        if (isCheck){
+          this.$store.dispatch('cart/changeAllCartCheckAction',{allId:this.allId,isChecked:0})
+        }else {
+          this.$store.dispatch('cart/changeAllCartCheckAction',{allId:this.allId,isChecked:1})
+        }
+      },
+      //删除所有选中的商品
+      delSelectCartGoods(){
+        this.$store.dispatch('cart/delSelectCartGoodsAction',{selectId:this.selectId})
+      }
     }
   }
 </script>
@@ -106,5 +120,8 @@
         }
       }
     }
+  }
+  a{
+    cursor: pointer;
   }
 </style>

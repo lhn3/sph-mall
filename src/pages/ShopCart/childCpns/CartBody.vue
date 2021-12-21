@@ -2,7 +2,7 @@
   <div class="cart-body">
     <ul class="cart-list" v-for="(item,index) in cartLists" :key="item.id">
       <li class="cart-list-con1">
-        <input type="checkbox" name="chk_list" :checked="item.isChecked==1">
+        <input type="checkbox" name="chk_list" :checked="item.isChecked==1" @change="changeCartCheck(item.skuId,item.isChecked)">
       </li>
       <li class="cart-list-con2">
         <img :src="item.imgUrl">
@@ -24,7 +24,7 @@
         <span class="sum">{{goodsPrice(index)}}</span>
       </li>
       <li class="cart-list-con7">
-        <a href="#none" class="sindelet">删除</a>
+        <a class="sindelet" @click="delCartGoods(item.skuId)">删除</a>
         <br>
         <a href="#none">移到收藏</a>
       </li>
@@ -49,6 +49,7 @@
     },
     methods: {
       //改变的数量向服务器发送请求
+
       changeNum(type,oldNum,id,e) {
         switch (type) {
           case 'add':
@@ -73,8 +74,26 @@
             }
             break;
         }
-      }
+      },
 
+      //购物车删除商品
+      async delCartGoods(id){
+        let res=await this.$store.dispatch('cart/delCartGoodsAction',id)
+        if (res.code==200){
+          alert('删除成功')
+        }else {
+          alert('删除失败')
+        }
+      },
+
+      //改变商品是否选中
+      changeCartCheck(id,isChecked){
+        if (isChecked==0){
+          this.$store.dispatch('cart/changeCartCheckAction',{id,isChecked:1})
+        }else {
+          this.$store.dispatch('cart/changeCartCheckAction',{id,isChecked:0})
+        }
+      }
 
     },
     computed: {
@@ -91,18 +110,27 @@
         let price = 0
         //选择的商品个数
         let selectNum = 0
+        //选中的所有商品Id
+        let selectId=[]
+        //所有的商品Id
+        let allId=[]
         //全选框是否勾选
         let checkedAll = false
+
         this.cartLists.forEach(item => {
           if (item.isChecked == 1) {
             selectNum += 1
             price += item.skuNum * item.cartPrice
+            selectId.push(item.skuId)
+            allId.push(item.skuId)
+          }else {
+            allId.push(item.skuId)
           }
         })
-        if (selectNum == this.cartList.length) {
+        if (selectNum == this.cartList.length && selectNum>0) {
           checkedAll = true
         }
-        return {price: price.toFixed(2), selectNum, checkedAll}
+        return {price: price.toFixed(2), selectNum, checkedAll,selectId,allId}
       }
     },
     watch: {

@@ -1,4 +1,4 @@
-import {getCartList} from "@/serve/cart/cartServe";
+import {changeCartCheck, delCartGoods, getCartList} from "@/serve/cart/cartServe";
 import {updateCart} from "@/serve/detail/detailServe";
 
 export default {
@@ -8,6 +8,8 @@ export default {
     totalPrice:0,
     selectNum:0,
     checkedAll:true,
+    selectId:[],
+    allId:[]
   },
   getters: {},
   mutations: {
@@ -18,18 +20,51 @@ export default {
       state.totalPrice=payload.price
       state.checkedAll=payload.checkedAll
       state.selectNum=payload.selectNum
+      state.selectId=payload.selectId
+      state.allId=payload.allId
     },
   },
   actions: {
     //获取商品详情页信息
     async getCartAction(action) {
-      let cartList=await getCartList()
-      action.commit('saveCartList',cartList.data[0].cartInfoList)
+      let res=await getCartList()
+      let cartList=res.data[0]?.cartInfoList || []
+      action.commit('saveCartList',cartList)
     },
+
     //修改商品的数量
     async changeGoodsNumAction(action,payload){
       await updateCart(payload)
       action.dispatch('getCartAction')
+    },
+
+    //删除商品的数量
+    async delCartGoodsAction(action,payload){
+      let res=await delCartGoods(payload)
+      action.dispatch('getCartAction')
+      return res
+    },
+
+    //修改商品是否选择
+    async changeCartCheckAction(action,payload){
+      await changeCartCheck(payload)
+      action.dispatch('getCartAction')
+    },
+
+    //修改全部商品是否选择
+    changeAllCartCheckAction(action,payload){
+      const {allId,isChecked}=payload
+      allId.forEach(item=>{
+        action.dispatch('changeCartCheckAction',{id:item,isChecked})
+      })
+    },
+
+    //删除所选的商品
+    delSelectCartGoodsAction(action,payload){
+      const {selectId}=payload
+      selectId.forEach(item=>{
+        action.dispatch('delCartGoodsAction',item)
+      })
     }
   },
 }
