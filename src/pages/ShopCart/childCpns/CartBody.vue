@@ -15,9 +15,10 @@
         <span class="price">{{(item.cartPrice).toFixed(2)}}￥</span>
       </li>
       <li class="cart-list-con5">
-        <a href="javascript:void(0)" class="mins">-</a>
-        <input autocomplete="off" type="text" :value="item.skuNum" minnum="1" class="itxt">
-        <a href="javascript:void(0)" class="plus">+</a>
+        <a class="mins" @click="changeNum('minus',item.skuNum,item.skuId)">-</a>
+        <input autocomplete="off" type="number" :value="item.skuNum" minnum="1" class="itxt"
+               @change="changeNum('change',item.skuNum,item.skuId,$event)">
+        <a class="plus" @click="changeNum('add',item.skuNum,item.skuId)">+</a>
       </li>
       <li class="cart-list-con6">
         <span class="sum">{{goodsPrice(index)}}</span>
@@ -46,7 +47,34 @@
         default: () => []
       }
     },
-    methods:{
+    methods: {
+      //改变的数量向服务器发送请求
+      changeNum(type,oldNum,id,e) {
+        switch (type) {
+          case 'add':
+            this.$store.dispatch('cart/changeGoodsNumAction',{id,num:1})
+            break;
+          case 'minus':
+            //如果剩下的数量大于一才可以减
+            if (oldNum>1){
+              this.$store.dispatch('cart/changeGoodsNumAction',{id,num:-1})
+            }else {
+              alert('此商品不能再减了')
+            }
+            break;
+          case 'change':
+            let value=e.target.value
+            if (value>=1){
+              let num=Math.floor(value)-oldNum
+              this.$store.dispatch('cart/changeGoodsNumAction',{id,num})
+            }else{
+              let num=1-oldNum
+              this.$store.dispatch('cart/changeGoodsNumAction',{id,num})
+            }
+            break;
+        }
+      }
+
 
     },
     computed: {
@@ -62,34 +90,35 @@
         //总价
         let price = 0
         //选择的商品个数
-        let selectNum=0
+        let selectNum = 0
         //全选框是否勾选
-        let checkedAll=false
+        let checkedAll = false
         this.cartLists.forEach(item => {
           if (item.isChecked == 1) {
-            selectNum+=1
+            selectNum += 1
             price += item.skuNum * item.cartPrice
           }
         })
-        if (selectNum==this.cartList.length){
-          checkedAll=true
+        if (selectNum == this.cartList.length) {
+          checkedAll = true
         }
-        return {price:price.toFixed(2),selectNum,checkedAll}
+        return {price: price.toFixed(2), selectNum, checkedAll}
       }
     },
-    watch:{
-      cartList(){
+    watch: {
+      cartList() {
         this.cartLists = this.cartList
       },
-      cartLists:{
-        handler(){
-        //  vueX中修改总价格和全选按钮
-          this.$store.commit('cart/saveChangeList',this.changeList)
+      cartLists: {
+        handler() {
+          //  vueX中修改总价格和全选按钮
+          this.$store.commit('cart/saveChangeList', this.changeList)
         },
-        deep:true,
-        immediate:true
+        deep: true,
+        immediate: true
       }
-    }
+    },
+
   }
 </script>
 
@@ -187,9 +216,23 @@
 
         a {
           color: #666;
+          cursor: pointer;
         }
       }
     }
+  }
+  /*取消number类型的input上下点击按钮*/
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button{
+    -webkit-appearance: none !important;
+  }
+
+  /*取消input选中后的边框*/
+  input{
+    outline:none;
+  }
+  a{
+    cursor: pointer;
   }
 
 </style>

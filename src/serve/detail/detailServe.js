@@ -7,7 +7,7 @@ export const getDetail = (id) => {
   })
 }
 
-//加入购物车
+//加入购物车(对已有的商品数量进行改变<id，改变的数量num>)
 export const updateCart = (data) => {
   return request({
     method:'post',

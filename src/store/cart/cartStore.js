@@ -1,4 +1,5 @@
 import {getCartList} from "@/serve/cart/cartServe";
+import {updateCart} from "@/serve/detail/detailServe";
 
 export default {
   namespaced: true,
@@ -24,6 +25,11 @@ export default {
     async getCartAction(action) {
       let cartList=await getCartList()
       action.commit('saveCartList',cartList.data[0].cartInfoList)
+    },
+    //修改商品的数量
+    async changeGoodsNumAction(action,payload){
+      await updateCart(payload)
+      action.dispatch('getCartAction')
     }
   },
 }
