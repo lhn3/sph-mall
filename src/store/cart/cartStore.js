@@ -8,8 +8,6 @@ export default {
     totalPrice:0,
     selectNum:0,
     checkedAll:true,
-    selectId:[],
-    allId:[]
   },
   getters: {},
   mutations: {
@@ -20,8 +18,6 @@ export default {
       state.totalPrice=payload.price
       state.checkedAll=payload.checkedAll
       state.selectNum=payload.selectNum
-      state.selectId=payload.selectId
-      state.allId=payload.allId
     },
   },
   actions: {
@@ -52,19 +48,22 @@ export default {
     },
 
     //修改全部商品是否选择
-    changeAllCartCheckAction(action,payload){
-      const {allId,isChecked}=payload
-      allId.forEach(item=>{
-        action.dispatch('changeCartCheckAction',{id:item,isChecked})
+    changeAllCartCheckAction({dispatch,state},payload){
+      const {isChecked}=payload
+      let promiseList=[]
+      state.cartList.forEach(item=>{
+        promiseList.push(dispatch('changeCartCheckAction',{id:item.skuId,isChecked}))
       })
+      return Promise.all(promiseList)
     },
 
     //删除所选的商品
-    delSelectCartGoodsAction(action,payload){
-      const {selectId}=payload
-      selectId.forEach(item=>{
-        action.dispatch('delCartGoodsAction',item)
+    delSelectCartGoodsAction({dispatch,state}){
+      let promiseList=[]
+      state.cartList.forEach(item=>{
+        promiseList.push(item.isChecked==1?dispatch('delCartGoodsAction',item.skuId):'')
       })
+      return Promise.all(promiseList)
     }
   },
 }

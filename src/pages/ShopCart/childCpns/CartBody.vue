@@ -110,10 +110,6 @@
         let price = 0
         //选择的商品个数
         let selectNum = 0
-        //选中的所有商品Id
-        let selectId=[]
-        //所有的商品Id
-        let allId=[]
         //全选框是否勾选
         let checkedAll = false
 
@@ -121,16 +117,13 @@
           if (item.isChecked == 1) {
             selectNum += 1
             price += item.skuNum * item.cartPrice
-            selectId.push(item.skuId)
-            allId.push(item.skuId)
           }else {
-            allId.push(item.skuId)
           }
         })
         if (selectNum == this.cartList.length && selectNum>0) {
           checkedAll = true
         }
-        return {price: price.toFixed(2), selectNum, checkedAll,selectId,allId}
+        return {price: price.toFixed(2), selectNum, checkedAll}
       }
     },
     watch: {

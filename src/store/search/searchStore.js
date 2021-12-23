@@ -6,17 +6,17 @@ export default {
     searchInfo: {},
   },
   getters: {
-    getAttrsList(sate) {
-      return sate.searchInfo.attrsList ?? []
+    getAttrsList(state) {
+      return state.searchInfo.attrsList ?? []
     },
-    getGoodsList(sate) {
-      return sate.searchInfo.goodsList ?? []
+    getGoodsList(state) {
+      return state.searchInfo.goodsList ?? []
     },
-    getTrademarkList(sate) {
-      return sate.searchInfo.trademarkList ?? []
+    getTrademarkList(state) {
+      return state.searchInfo.trademarkList ?? []
     },
-    getTotal(sate) {
-      return sate.searchInfo.total ?? 0
+    getTotal(state) {
+      return state.searchInfo.total ?? 0
     }
   },
   mutations: {

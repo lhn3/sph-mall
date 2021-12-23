@@ -30,20 +30,20 @@
   export default {
     name: "CartTool",
     computed:{
-      ...mapState('cart',['totalPrice','selectNum','checkedAll','selectId','allId'])
+      ...mapState('cart',['totalPrice','selectNum','checkedAll'])
     },
     methods:{
       //全选按钮改变
       changeCheckedAll(isCheck){
         if (isCheck){
-          this.$store.dispatch('cart/changeAllCartCheckAction',{allId:this.allId,isChecked:0})
+          this.$store.dispatch('cart/changeAllCartCheckAction',{isChecked:0})
         }else {
-          this.$store.dispatch('cart/changeAllCartCheckAction',{allId:this.allId,isChecked:1})
+          this.$store.dispatch('cart/changeAllCartCheckAction',{isChecked:1})
         }
       },
       //删除所有选中的商品
-      delSelectCartGoods(){
-        this.$store.dispatch('cart/delSelectCartGoodsAction',{selectId:this.selectId})
+      async delSelectCartGoods(){
+        await this.$store.dispatch('cart/delSelectCartGoodsAction')
       }
     }
   }
