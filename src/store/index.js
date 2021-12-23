@@ -25,3 +25,10 @@ export const store = new Vuex.Store({
     user: userStore
   }
 })
+
+//数据持久化
+export default function cacheToVuex(){
+  store.dispatch('user/userInfoToVuex')
+}
+
+cacheToVuex()

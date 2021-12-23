@@ -14,23 +14,23 @@
           </ul>
 
           <div class="content">
-            <form action="##">
+            <form>
               <div class="input-text clearFix">
                 <span></span>
-                <input type="text" placeholder="邮箱/用户名/手机号">
+                <input type="text" placeholder="邮箱/用户名/手机号" v-model="phone">
               </div>
               <div class="input-text clearFix">
                 <span class="pwd"></span>
-                <input type="text" placeholder="请输入密码">
+                <input type="password" placeholder="请输入密码" v-model="password">
               </div>
               <div class="setting clearFix">
                 <label class="checkbox inline">
-                  <input name="m1" type="checkbox" value="2" checked="">
+                  <input name="m1" type="checkbox" v-model="remember">
                   自动登录
                 </label>
                 <span class="forget">忘记密码？</span>
               </div>
-              <button class="btn">登&nbsp;&nbsp;录</button>
+              <button class="btn" @click.prevent="login">登&nbsp;&nbsp;录</button>
             </form>
 
             <div class="call clearFix">
@@ -53,10 +53,49 @@
 
 <script>
   import UserFooter from '@/components/UserFooter/UserFooter'
+  import cache from "@/utils/cache";
+
   export default {
     name: 'Login',
-    components:{
+    data() {
+      return {
+        phone: '',
+        password: '',
+        remember: true
+      }
+    },
+    components: {
       UserFooter
+    },
+    mounted() {
+      //有记住密码就显示上一次记住的密码
+      this.phone = cache.getCache('sph_remember')?.phone ?? ''
+      this.password = cache.getCache('sph_remember')?.password ?? ''
+    },
+    methods: {
+      async login() {
+        //判断用户名或密码是否输入
+        if (!this.phone || !this.password) {
+          alert('请输入用户名或密码')
+          return
+        }
+
+        //执行登录请求
+        let res = await this.$store.dispatch(
+            'user/loginAction',
+            {
+              phone: this.phone, password: this.password
+            })
+        if (res.code == 200) {
+          //判断是否有记住密码
+          if (this.remember) {
+            cache.setCache('sph_remember', {phone: this.phone, password: this.password})
+          }
+          this.$router.push('/home')
+        } else {
+          alert(res.message)
+        }
+      }
     }
   }
 </script>
@@ -215,5 +254,9 @@
         }
       }
     }
+  }
+
+  button {
+    cursor: pointer;
   }
 </style>
