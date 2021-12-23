@@ -49,6 +49,8 @@
     mounted() {
       //获取轮播图，floor数据
       this.$store.dispatch('home/getMessageAction')
+      //获取用户信息
+      this.$store.dispatch('user/getAuthAction')
     },
     computed:{
       ...mapState({

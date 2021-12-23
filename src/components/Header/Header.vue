@@ -5,10 +5,14 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="!token">
             <span>请</span>
             <router-link to="/login">登录</router-link>
             <router-link to="/register" class="register">免费注册</router-link>
+          </p>
+          <p v-else>
+            <span>{{username}}</span>
+            <a class="register" @click="loginOut">退出登录</a>
           </p>
         </div>
         <div class="typeList">
@@ -43,12 +47,17 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
+  import cache from "@/utils/cache";
   export default {
     name: "Header",
     data() {
       return {
         info: ''
       }
+    },
+    computed:{
+      ...mapState('user',["token","username"])
     },
     methods: {
       toSearch() {
@@ -61,6 +70,13 @@
         } else {
           this.$router.push({name: 'search', params})
         }
+      },
+
+      //退出登录
+      loginOut(){
+        cache.delCache('sph_token')
+        cache.delCache('sph_userInfo')
+        this.$router.push('/login')
       }
     }
   }
@@ -160,6 +176,8 @@
       }
     }
   }
-
+  a{
+    cursor: pointer;
+  }
 
 </style>

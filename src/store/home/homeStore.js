@@ -23,6 +23,7 @@ export default {
     async getTypeNavAction(action){
       const typeNav=await getTypeNav()
       typeNav.data.pop()
+      typeNav.data.pop()
       action.commit('saveTypeNav',typeNav.data)
     },
     //获取首页其他数据

@@ -16,7 +16,9 @@ export function request(data) {
   requests.interceptors.request.use(config => {
     nprogress.start()
     //请求头携带uuid
-    config.headers.userTempId=store.state.uid
+    config.headers.userTempId=store.state.uid??''
+    //请求头携带token
+    config.headers.token=store.state.user.token??''
     console.log('请求拦截')
     return config
   },error => {

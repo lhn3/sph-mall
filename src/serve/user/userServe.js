@@ -24,3 +24,10 @@ export const login=(data)=>{
     data:data
   })
 }
+
+//获取用户信息
+export const getAuth=()=>{
+  return request({
+    url:'user/passport/auth/getUserInfo',
+  })
+}
