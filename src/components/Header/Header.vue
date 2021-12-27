@@ -73,9 +73,8 @@
       },
 
       //退出登录
-      loginOut(){
-        cache.delCache('sph_token')
-        cache.delCache('sph_userInfo')
+      async loginOut(){
+        await this.$store.dispatch('user/loginOutAction')
         this.$router.push('/login')
       }
     }

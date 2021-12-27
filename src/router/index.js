@@ -1,5 +1,6 @@
 import vue from 'vue'
 import Router from 'vue-router'
+import {store} from "@/store";
 //使用插件
 vue.use(Router)
 
@@ -31,7 +32,7 @@ Router.prototype.replace=function (location,resolve,reject) {
 }
 
 
-export default new Router({
+const router=new Router({
   //配置路由
   routes: [
       // 重定向
@@ -105,3 +106,29 @@ export default new Router({
     return {y:0}
   }
 })
+
+//全局前置守卫
+router.beforeEach((to,from,next)=>{
+  //to:想要去的路由信息
+  //from:从哪个路由来的信息
+  //next():放行
+  //next(false):中断当前导航
+  //next({path:'/login'}):放行到哪个路由
+
+  //如果登录后再前往登录页，自动跳转到首页
+  const isToken=Boolean(store.state.user.token)
+  if (isToken){
+    if (to.path=='/login'){
+      next('/home')
+    }
+  }
+  //如果没登录前往购物车，会跳转到登录页面
+  if (!isToken){
+    if (to.path=='/shopCart' || to.path=='/addCart'){
+      next('/login')
+    }
+  }
+  next()
+})
+
+export default router

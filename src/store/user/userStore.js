@@ -1,4 +1,4 @@
-import {finishRegister, getAuth, getCode, login} from '@/serve/user/userServe'
+import {finishRegister, getAuth, getCode, login,loginOut} from '@/serve/user/userServe'
 import cache from "@/utils/cache";
 
 export default {
@@ -24,6 +24,15 @@ export default {
       state.avatar=payload.headImg
       state.status=payload.status
       state.gender=payload.gender
+    },
+    clearState(state){
+      state.token=''
+      state.userId=''
+      state.username=''
+      state.phone=''
+      state.avatar=''
+      state.status=''
+      state.gender=''
     }
   },
   actions: {
@@ -56,6 +65,17 @@ export default {
         action.commit('saveUserInfo',res.data??{})
         cache.setCache('sph_userInfo',res.data??{})
       }
+    },
+    //退出登录
+    async loginOutAction(action){
+      const res=await loginOut()
+      if (res.code==200){
+        // 清除本地储存,vuex
+        cache.delCache('sph_token')
+        cache.delCache('sph_userInfo')
+        action.commit('clearState')
+      }
+      return res
     },
 
   //  数据持久化

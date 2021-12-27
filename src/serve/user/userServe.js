@@ -31,3 +31,10 @@ export const getAuth=()=>{
     url:'user/passport/auth/getUserInfo',
   })
 }
+
+//退出登录
+export const loginOut=()=>{
+  return request({
+    url:'user/passport/logout',
+  })
+}

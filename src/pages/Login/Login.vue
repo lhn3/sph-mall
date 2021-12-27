@@ -26,7 +26,7 @@
               <div class="setting clearFix">
                 <label class="checkbox inline">
                   <input name="m1" type="checkbox" v-model="remember">
-                  自动登录
+                  记住密码
                 </label>
                 <span class="forget">忘记密码？</span>
               </div>
@@ -90,6 +90,8 @@
           //判断是否有记住密码
           if (this.remember) {
             cache.setCache('sph_remember', {phone: this.phone, password: this.password})
+          }else{
+            cache.delCache('sph_remember')
           }
           this.$router.push('/home')
         } else {
