@@ -29,34 +29,19 @@
       </div>
       <div class="detail">
         <h5>商品清单</h5>
-        <ul class="list clearFix">
+        <ul class="list clearFix" v-for="item in goods.detailArrayList" :key="item.skuId">
           <li>
-            <img src="./images/goods.png" alt="">
+            <img :src="item.imgUrl" class="goodsImg">
           </li>
           <li>
             <p>
-              Apple iPhone 6s (A1700) 64G 玫瑰金色 移动联通电信4G手机硅胶透明防摔软壳 本色系列</p>
+              {{item.skuName}}</p>
             <h4>7天无理由退货</h4>
           </li>
           <li>
-            <h3>￥5399.00</h3>
+            <h3>￥{{item.orderPrice.toFixed(2)}}</h3>
           </li>
-          <li>X1</li>
-          <li>有货</li>
-        </ul>
-        <ul class="list clearFix">
-          <li>
-            <img src="./images/goods.png" alt="">
-          </li>
-          <li>
-            <p>
-              Apple iPhone 6s (A1700) 64G 玫瑰金色 移动联通电信4G手机硅胶透明防摔软壳 本色系列</p>
-            <h4>7天无理由退货</h4>
-          </li>
-          <li>
-            <h3>￥5399.00</h3>
-          </li>
-          <li>X1</li>
+          <li>X{{item.skuNum}}</li>
           <li>有货</li>
         </ul>
       </div>
@@ -76,7 +61,7 @@
       <ul>
         <li>
           <b><i>{{goods.totalNum}}</i>件商品，总商品金额</b>
-          <span>¥5399.00</span>
+          <span>¥{{totalPrice}}</span>
         </li>
         <li>
           <b>返现：</b>
@@ -89,7 +74,7 @@
       </ul>
     </div>
     <div class="trade">
-      <div class="price">应付金额:　<span>¥5399.00</span></div>
+      <div class="price">应付金额:　<span>¥{{totalPrice}}</span></div>
       <div class="receiveInfo" v-for="item in address" :key="item.id" v-if="item.isDefault==1">
         寄送至:
         <span>{{item.userAddress}}</span>
@@ -98,7 +83,7 @@
       </div>
     </div>
     <div class="sub clearFix">
-      <router-link class="subBtn" to="/pay">提交订单</router-link>
+      <a class="subBtn" @click="toPay">提交订单</a>
     </div>
   </div>
 </template>
@@ -113,7 +98,12 @@
       this.$store.dispatch('trade/getTradeGoodsAction')
     },
     computed: {
-      ...mapState('trade', ['address', 'goods'])
+      ...mapState('trade', ['address', 'goods']),
+      totalPrice(){
+        return this.goods.detailArrayList?.reduce((preNum,item)=>{
+          return preNum+item.orderPrice*item.skuNum
+        },0).toFixed(2)
+      }
     },
     methods: {
       selectAddress(item) {
@@ -123,8 +113,11 @@
           })
           item.isDefault = 1
         }
+      },
+      toPay(){
+        this.$router.push({name:'pay'})
       }
-    }
+    },
   }
 </script>
 
@@ -379,5 +372,11 @@
     }
 
   }
-
+  .goodsImg{
+    width: 100px;
+    height: 100px;
+  }
+  a{
+    cursor: pointer;
+  }
 </style>
