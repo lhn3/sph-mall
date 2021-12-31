@@ -13,3 +13,12 @@ export const getTradeGoods = () => {
     url: '/order/auth/trade'
   })
 }
+
+//提交订单
+export const tradeSubmit = (tradeNo,data) => {
+  return request({
+    url: '/order/auth/submitOrder?tradeNo='+tradeNo,
+    data,
+    method:'post'
+  })
+}

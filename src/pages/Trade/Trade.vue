@@ -47,7 +47,7 @@
       </div>
       <div class="bbs">
         <h5>买家留言：</h5>
-        <textarea placeholder="建议留言前先与商家沟通确认" class="remarks-cont"></textarea>
+        <textarea placeholder="建议留言前先与商家沟通确认" class="remarks-cont" v-model="info"></textarea>
 
       </div>
       <div class="line"></div>
@@ -75,11 +75,11 @@
     </div>
     <div class="trade">
       <div class="price">应付金额:　<span>¥{{totalPrice}}</span></div>
-      <div class="receiveInfo" v-for="item in address" :key="item.id" v-if="item.isDefault==1">
+      <div class="receiveInfo" v-if="useAddress">
         寄送至:
-        <span>{{item.userAddress}}</span>
-        收货人：<span>{{item.consignee}}</span>
-        <span>{{item.phoneNum}}</span>
+        <span>{{useAddress.userAddress}}</span>
+        收货人：<span>{{useAddress.consignee}}</span>
+        <span>{{useAddress.phoneNum}}</span>
       </div>
     </div>
     <div class="sub clearFix">
@@ -90,22 +90,38 @@
 
 <script>
   import {mapState} from 'vuex'
+  import {tradeSubmit} from '@/serve/trade/tradeServe'
 
   export default {
     name: 'Trade',
+    data() {
+      return {
+        info: '',
+        submitCode: ''
+      }
+    },
     mounted() {
       this.$store.dispatch('trade/getUserAddressAction')
       this.$store.dispatch('trade/getTradeGoodsAction')
     },
     computed: {
       ...mapState('trade', ['address', 'goods']),
-      totalPrice(){
-        return this.goods.detailArrayList?.reduce((preNum,item)=>{
-          return preNum+item.orderPrice*item.skuNum
-        },0).toFixed(2)
+      //总价
+      totalPrice() {
+        return this.goods.detailArrayList?.reduce((preNum, item) => {
+          return preNum + item.orderPrice * item.skuNum
+        }, 0).toFixed(2)
+      },
+      //选择中的地址
+      useAddress() {
+        return this.address.find(item => {
+          return item.isDefault == 1
+        })
       }
+
     },
     methods: {
+      //更改选择中的地址
       selectAddress(item) {
         if (item.isDefault == 0) {
           this.address.forEach(i => {
@@ -114,8 +130,24 @@
           item.isDefault = 1
         }
       },
-      toPay(){
-        this.$router.push({name:'pay'})
+      //前往付款页面发送请求
+      async toPay() {
+        //需要购买的物品信息和收货人信息
+        const data = {
+          consignee: this.useAddress.consignee,
+          consigneetEL: this.useAddress.phoneNum,
+          deliveryAddress: this.useAddress.userAddress,
+          paymentWay: 'ONLINE',
+          orderComment: this.info,
+          orderDetailList: this.goods.detailArrayList
+        }
+        const res = await tradeSubmit(this.goods.tradeNo, data)
+        if (res.code == 200) {
+          this.orderId = res.data
+          this.$router.push({name: 'pay', query: {orderId: this.orderId}})
+        } else {
+          alert(res.message)
+        }
       }
     },
   }
@@ -372,11 +404,13 @@
     }
 
   }
-  .goodsImg{
+
+  .goodsImg {
     width: 100px;
     height: 100px;
   }
-  a{
+
+  a {
     cursor: pointer;
   }
 </style>
