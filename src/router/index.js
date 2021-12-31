@@ -12,6 +12,7 @@ const Search = () => import('@/pages/Search/Search')
 const Detail = () => import('@/pages/Detail/Detail')
 const AddCart = () => import('@/pages/Detail/childCpns/AddCartSuccess')
 const ShopCart = () => import('@/pages/ShopCart/ShopCart')
+const Trade = () => import('@/pages/Trade/Trade')
 
 //重写Router原形上的push,replace方法
 let oldPush=Router.prototype.push
@@ -99,6 +100,14 @@ const router=new Router({
       meta:{
         showFooter:true
       },
+    },
+    {
+      path: '/trade',
+      name: 'trade',
+      component:Trade,
+      meta:{
+        showFooter:true
+      },
     }
   ],
   //路由跳转滚动条回到顶部
@@ -124,7 +133,7 @@ router.beforeEach((to,from,next)=>{
   }
   //如果没登录前往购物车，会跳转到登录页面
   if (!isToken){
-    if (to.path=='/shopCart' || to.path=='/addCart'){
+    if (to.path=='/shopCart' || to.path=='/addCart' || to.path=='/trade'){
       next('/login')
     }
   }

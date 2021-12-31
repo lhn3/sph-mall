@@ -18,7 +18,7 @@
         <i class="summoney">{{totalPrice}}￥</i>
       </div>
       <div class="sumbtn">
-        <a class="sum-btn" href="###" target="_blank">结算</a>
+        <a class="sum-btn" target="_blank" @click="toTrade">结算</a>
       </div>
     </div>
   </div>
@@ -44,6 +44,10 @@
       //删除所有选中的商品
       async delSelectCartGoods(){
         await this.$store.dispatch('cart/delSelectCartGoodsAction')
+      },
+      //结算
+      toTrade(){
+        this.$router.push({name:'trade'})
       }
     }
   }

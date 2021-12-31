@@ -5,6 +5,7 @@ import searchStore from "@/store/search/searchStore";
 import userStore from "@/store/user/userStore";
 import detailStore from "@/store/detail/detailStore";
 import cartStore from "@/store/cart/cartStore";
+import tradeStore from "@/store/trade/tradeStore";
 import getUuid from "@/utils/uuids";
 //安装插件
 Vue.use(Vuex)
@@ -22,7 +23,8 @@ export const store = new Vuex.Store({
     search: searchStore,
     detail: detailStore,
     cart: cartStore,
-    user: userStore
+    user: userStore,
+    trade: tradeStore,
   }
 })
 
