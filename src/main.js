@@ -12,6 +12,8 @@ import Pagination from "@/components/Pagination/Pagination"
 import '@/mock/mockServe'
 //导入swiper样式
 import 'swiper/css/swiper.min.css'
+import {Button,MessageBox} from 'element-ui'
+
 
 Vue.config.productionTip = false
 
@@ -19,6 +21,11 @@ Vue.config.productionTip = false
 Vue.component(TypeNav.name,TypeNav)
 Vue.component(Swiper.name,Swiper)
 Vue.component(Pagination.name,Pagination)
+
+//使用组件
+Vue.use(Button)
+//挂在原形上
+Vue.prototype.$alert=MessageBox.alert
 
 new Vue({
   render: h => h(App),

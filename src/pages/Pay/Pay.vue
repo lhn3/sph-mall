@@ -7,8 +7,8 @@
           <span class="success-info">订单提交成功，请您及时付款，以便尽快为您发货~~</span>
         </h4>
         <div class="paymark">
-          <span class="fl">请您在提交订单<em class="orange time">4小时</em>之内完成支付，超时订单会自动取消。订单号：<em>145687</em></span>
-          <span class="fr"><em class="lead">应付金额：</em><em class="orange money">￥17,654</em></span>
+          <span class="fl">请您在提交订单<em class="orange time">4小时</em>之内完成支付，超时订单会自动取消。订单号：<em>{{orderId}}</em></span>
+          <span class="fr"><em class="lead">应付金额：</em><em class="orange money">￥{{totalFee.toFixed(2)}}</em></span>
         </div>
       </div>
       <div class="checkout-info">
@@ -65,7 +65,7 @@
         <div class="hr"></div>
 
         <div class="submit">
-          <router-link class="btn" to="/paysuccess">立即支付</router-link>
+          <el-button class="btn" @click="open">立即支付</el-button>
         </div>
         <div class="otherpay">
           <div class="step-tit">
@@ -82,8 +82,29 @@
 </template>
 
 <script>
+  import {mapState} from "vuex";
+
   export default {
     name: 'Pay',
+    data(){
+      return{
+        orderId:0
+      }
+    },
+    mounted() {
+      this.orderId=this.$route.query.orderId
+      this.$store.dispatch('pay/getPayInfoAction',this.orderId)
+    },
+    computed:{
+      ...mapState('pay',['codeUrl','totalFee'])
+    },
+    methods:{
+      open() {
+        this.$alert('<strong>这是 <i>HTML</i> 片段</strong>', 'HTML 片段', {
+          dangerouslyUseHTMLString: true
+        });
+      }
+    }
   }
 </script>
 

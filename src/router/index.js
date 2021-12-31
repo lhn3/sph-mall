@@ -142,7 +142,7 @@ router.beforeEach((to,from,next)=>{
   }
   //如果没登录前往购物车，会跳转到登录页面
   if (!isToken){
-    if (to.path=='/shopCart' || to.path=='/addCart' || to.path=='/trade' || to.path=='/trade'){
+    if (to.path=='/shopCart' || to.path=='/addCart' || to.path=='/trade' || to.path=='/trade' ||to.path=='/pay'){
       next('/login')
     }
   }

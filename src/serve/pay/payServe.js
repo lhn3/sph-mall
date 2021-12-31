@@ -1,9 +1,9 @@
 import {request} from '../request'
 
-//
-export const r = () => {
+//获取支付信息
+export const getPayInfo = (orderId) => {
   return request({
-    url: '',
+    url: 'payment/weixin/createNative/'+orderId,
   })
 }
 
