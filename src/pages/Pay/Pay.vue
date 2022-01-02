@@ -111,29 +111,44 @@
           dangerouslyUseHTMLString: true,
           center:true,
           showCancelButton:true,
-          cancelButtonText:'支付问题',
+          cancelButtonText:'关闭',
           confirmButtonText:'已支付',
           closeOnClickModal:true,
-          showClose:false
+          showClose:false,
+          //弹出框关闭前的回调
+          beforeClose:(type,instance,done)=>{
+            if (type=='cancel'){
+              clearInterval(this.timer)
+              this.timer=null
+              done()
+            }else{
+              if (this.code==200){
+                clearInterval(this.timer)
+                this.timer=null
+                this.$router.push('/paySuccess')
+                done()
+              }else {
+                alert('您还未支付！')
+              }
+            }
+          }
         });
 
         //持续发送请求判断是否请求成功
-        this.timer=setInterval(async ()=>{
-          const res=await getPayStatus(this.orderId)
-          console.log(res)
-          //支付成功后,清楚定时器，关闭弹窗
-          if (res.code==200){
-            clearInterval(this.timer)
-            this.timer=null
-            this.code=res.code
-            this.$msgbox.close()
-            // this.$router.push({name:''})
-          }
-        },1000)
-
-        //点击关闭弹窗，清除定时器
-
-
+        if(!this.timer){
+          this.timer=setInterval(async ()=>{
+            const res=await getPayStatus(this.orderId)
+            console.log(res)
+            //支付成功后,清楚定时器，关闭弹窗
+            if (res.code==200){
+              clearInterval(this.timer)
+              this.timer=null
+              this.code=res.code
+              this.$msgbox.close()
+              this.$router.push('/paySuccess')
+            }
+          },1000)
+        }
       }
     }
   }

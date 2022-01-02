@@ -14,6 +14,7 @@ const AddCart = () => import('@/pages/Detail/childCpns/AddCartSuccess')
 const ShopCart = () => import('@/pages/ShopCart/ShopCart')
 const Trade = () => import('@/pages/Trade/Trade')
 const Pay = () => import('@/pages/Pay/Pay')
+const PaySuccess = () => import('@/pages/Pay/PaySuccess')
 
 //重写Router原形上的push,replace方法
 let oldPush=Router.prototype.push
@@ -117,7 +118,15 @@ const router=new Router({
       meta:{
         showFooter:true
       },
-    }
+    },
+    {
+      path: '/paySuccess',
+      name: 'paySuccess',
+      component:PaySuccess,
+      meta:{
+        showFooter:true
+      },
+    },
   ],
   //路由跳转滚动条回到顶部
   scrollBehavior(to,from,savedPosition){
@@ -142,7 +151,12 @@ router.beforeEach((to,from,next)=>{
   }
   //如果没登录前往购物车，会跳转到登录页面
   if (!isToken){
-    if (to.path=='/shopCart' || to.path=='/addCart' || to.path=='/trade' || to.path=='/trade' ||to.path=='/pay'){
+    if (to.path=='/shopCart' ||
+        to.path=='/addCart' ||
+        to.path=='/trade' ||
+        to.path=='/trade' ||
+        to.path=='/pay'||
+        to.path=='/paySuccess'){
       next('/login')
     }
   }
