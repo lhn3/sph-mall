@@ -12,6 +12,7 @@ import Pagination from "@/components/Pagination/Pagination"
 import '@/mock/mockServe'
 //导入swiper样式
 import 'swiper/css/swiper.min.css'
+//导入支付弹窗
 import {Button,MessageBox} from 'element-ui'
 
 
@@ -25,10 +26,11 @@ Vue.component(Pagination.name,Pagination)
 //使用组件
 Vue.use(Button)
 //挂在原形上
+Vue.prototype.$msgbox=MessageBox
 Vue.prototype.$alert=MessageBox.alert
 
 new Vue({
   render: h => h(App),
   router,
-  store
+  store,
 }).$mount('#app')

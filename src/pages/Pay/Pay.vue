@@ -83,12 +83,15 @@
 
 <script>
   import {mapState} from "vuex";
-
+  import QRCode from "qrcode";
+  import {getPayStatus} from '@/serve/pay/payServe'
   export default {
     name: 'Pay',
     data(){
       return{
-        orderId:0
+        orderId:0,
+        timer:null,
+        code:205
       }
     },
     mounted() {
@@ -99,10 +102,38 @@
       ...mapState('pay',['codeUrl','totalFee'])
     },
     methods:{
-      open() {
-        this.$alert('<strong>这是 <i>HTML</i> 片段</strong>', 'HTML 片段', {
-          dangerouslyUseHTMLString: true
+      async open() {
+        //获取支付二维码
+        const url=await QRCode.toDataURL(this.codeUrl)
+
+        //弹出窗
+        this.$alert(`<img src="${url}" />`, '请微信扫码支付', {
+          dangerouslyUseHTMLString: true,
+          center:true,
+          showCancelButton:true,
+          cancelButtonText:'支付问题',
+          confirmButtonText:'已支付',
+          closeOnClickModal:true,
+          showClose:false
         });
+
+        //持续发送请求判断是否请求成功
+        this.timer=setInterval(async ()=>{
+          const res=await getPayStatus(this.orderId)
+          console.log(res)
+          //支付成功后,清楚定时器，关闭弹窗
+          if (res.code==200){
+            clearInterval(this.timer)
+            this.timer=null
+            this.code=res.code
+            this.$msgbox.close()
+            // this.$router.push({name:''})
+          }
+        },1000)
+
+        //点击关闭弹窗，清除定时器
+
+
       }
     }
   }

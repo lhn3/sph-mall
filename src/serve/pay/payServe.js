@@ -7,3 +7,10 @@ export const getPayInfo = (orderId) => {
   })
 }
 
+//获取是否支付状态
+export const getPayStatus = (orderId) => {
+  return request({
+    url: 'payment/weixin/queryPayStatus/'+orderId,
+  })
+}
+
