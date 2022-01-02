@@ -122,14 +122,15 @@
               this.timer=null
               done()
             }else{
-              if (this.code==200){
+              //点击已支付判断是否支付
+              // if (this.code==200){
                 clearInterval(this.timer)
                 this.timer=null
                 this.$router.push('/paySuccess')
                 done()
-              }else {
-                alert('您还未支付！')
-              }
+              // }else {
+              //   alert('您还未支付！')
+              // }
             }
           }
         });

@@ -156,7 +156,6 @@
           this.pageSize=size
           this.recodes=records
           this.total=total
-          console.log(records)
         }else {
           alert('请求失败')
         }

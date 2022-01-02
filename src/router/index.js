@@ -96,6 +96,13 @@ const router=new Router({
       component:AddCart,
       meta:{
         showFooter:true
+      },
+      beforeEnter:(to,from,next)=>{
+        if (from.name=='Detail'){
+          next()
+        }else {
+          next(false)
+        }
       }
     },
     {
@@ -113,6 +120,13 @@ const router=new Router({
       meta:{
         showFooter:true
       },
+      beforeEnter:(to,from,next)=>{
+        if (from.name=='shopCart'){
+          next()
+        }else {
+          next(false)
+        }
+      }
     },
     {
       path: '/pay',
@@ -121,6 +135,13 @@ const router=new Router({
       meta:{
         showFooter:true
       },
+      beforeEnter:(to,from,next)=>{
+        if (from.name=='trade'){
+          next()
+        }else {
+          next(false)
+        }
+      }
     },
     {
       path: '/paySuccess',
@@ -129,6 +150,13 @@ const router=new Router({
       meta:{
         showFooter:true
       },
+      beforeEnter:(to,from,next)=>{
+        if (from.name=='pay'){
+          next()
+        }else {
+          next(false)
+        }
+      }
     },
     {
       path: '/center',
@@ -161,6 +189,8 @@ const router=new Router({
   }
 })
 
+
+
 //全局前置守卫
 router.beforeEach((to,from,next)=>{
   //to:想要去的路由信息
@@ -172,20 +202,20 @@ router.beforeEach((to,from,next)=>{
   //如果登录后再前往登录页，自动跳转到首页
   const isToken=Boolean(store.state.user.token)
   if (isToken){
-    if (to.path=='/login'){
+    if (to.name=='login'){
       next('/home')
     }
   }
   //如果没登录前往购物车，会跳转到登录页面
   if (!isToken){
-    if (to.path=='/shopCart' ||
-        to.path=='/addCart' ||
-        to.path=='/trade' ||
-        to.path=='/trade' ||
-        to.path=='/pay'||
-        to.path=='/paySuccess'||
-        to.path=='/center'){
-      next('/login')
+    if (to.name=='shopCart' ||
+        to.name=='addCart' ||
+        to.name=='trade' ||
+        to.name=='pay'||
+        to.name=='paySuccess'||
+        to.name=='myOrder'||
+        to.name=='groupOrder'){
+      next(`/login?redirect=${to.path}`)
     }
   }
   next()

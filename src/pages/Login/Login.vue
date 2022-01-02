@@ -93,10 +93,17 @@
           }else{
             cache.delCache('sph_remember')
           }
-          this.$router.push('/home')
+          //登陆成功跳转路由
+          const path=this.$route.query.redirect
+          if(path){
+            this.$router.push(path)
+          }else {
+            this.$router.push('/home')
+          }
         } else {
           alert(res.message)
         }
+
       }
     }
   }
