@@ -15,6 +15,9 @@ const ShopCart = () => import('@/pages/ShopCart/ShopCart')
 const Trade = () => import('@/pages/Trade/Trade')
 const Pay = () => import('@/pages/Pay/Pay')
 const PaySuccess = () => import('@/pages/Pay/PaySuccess')
+const Center = () => import('@/pages/Center/Center')
+const MyOrder = () => import('@/pages/Center/childCpns/MyOrder')
+const GroupOrder = () => import('@/pages/Center/childCpns/GroupOrder')
 
 //重写Router原形上的push,replace方法
 let oldPush=Router.prototype.push
@@ -127,6 +130,30 @@ const router=new Router({
         showFooter:true
       },
     },
+    {
+      path: '/center',
+      name: 'center',
+      component:Center,
+      children: [
+        {
+         path:'/center/myOrder' ,
+          name:'myOrder',
+          component:MyOrder
+        },
+        {
+         path:'/center/groupOrder' ,
+          name:'groupOrder',
+          component:GroupOrder
+        },
+        {
+          path:'/center' ,
+          redirect:'/center/myOrder'
+        },
+      ],
+      meta:{
+        showFooter:true
+      },
+    },
   ],
   //路由跳转滚动条回到顶部
   scrollBehavior(to,from,savedPosition){
@@ -156,7 +183,8 @@ router.beforeEach((to,from,next)=>{
         to.path=='/trade' ||
         to.path=='/trade' ||
         to.path=='/pay'||
-        to.path=='/paySuccess'){
+        to.path=='/paySuccess'||
+        to.path=='/center'){
       next('/login')
     }
   }
