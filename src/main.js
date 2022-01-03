@@ -14,6 +14,18 @@ import '@/mock/mockServe'
 import 'swiper/css/swiper.min.css'
 //导入支付弹窗
 import {Button,MessageBox} from 'element-ui'
+//懒加载导入
+import VueLazyload from 'vue-lazyload'
+import err from '@/assets/error.jpg'
+import loading from '@/assets/loading.gif'
+//导入表单验证
+import '@/utils/veeValidate'
+
+//使用懒加载插件
+Vue.use(VueLazyload,{
+  error: err,
+  loading: loading,
+})
 
 
 Vue.config.productionTip = false

@@ -139,7 +139,7 @@
         if(!this.timer){
           this.timer=setInterval(async ()=>{
             const res=await getPayStatus(this.orderId)
-            console.log(res)
+            // console.log(res)
             //支付成功后,清楚定时器，关闭弹窗
             if (res.code==200){
               clearInterval(this.timer)

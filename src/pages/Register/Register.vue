@@ -8,29 +8,36 @@
       </h3>
       <div class="content">
         <label>手机号:</label>
-        <input type="text" placeholder="请输入你的手机号" v-model="phone">
-        <span class="error-msg">错误提示信息</span>
+<!--        <input type="text" placeholder="请输入你的手机号" v-model="phone">-->
+<!--        <span class="error-msg">错误提示信息</span>-->
+        <input type="text" placeholder="请输入你的手机号" v-model="phone" name="phone"
+               v-validate="{require:true,regex:/^1[3,4,5,8]\d{9}$/}" :class="{invalid:errors.has('phone')}">
+        <span class="error-msg">{{errors.first('phone')}}</span>
       </div>
       <div class="content">
         <label>验证码:</label>
-        <input type="text" placeholder="请输入验证码" ref="codeValue">
+        <input type="text" placeholder="请输入验证码" v-model="code" name="code"
+               v-validate="{require:true,regex:/^\d{6}$/}" :class="{invalid:errors.has('code')}">
         <button class="sendCode" @click="sendCode" ref="sendCode" >发送验证码</button>
-        <span class="error-msg">错误提示信息</span>
+        <span class="error-msg">{{errors.first('code')}}</span>
       </div>
       <div class="content">
         <label>登录密码:</label>
-        <input type="password" placeholder="请输入你的登录密码" v-model="password">
-        <span class="error-msg">错误提示信息</span>
+        <input type="password" placeholder="请输入密码" v-model="password" name="password"
+               v-validate="{require:true,regex:/^[a-zA-Z0-9]{6,18}$/}" :class="{invalid:errors.has('password')}">
+        <span class="error-msg">{{errors.first('password')}}</span>
       </div>
       <div class="content">
         <label>确认密码:</label>
-        <input type="password" placeholder="请输入确认密码" v-model="passwordR">
-        <span class="error-msg">错误提示信息</span>
+        <input type="password" placeholder="请再次输入密码" v-model="passwordR" name="passwordR"
+               v-validate="{require:true,is:password}" :class="{invalid:errors.has('passwordR')}">
+        <span class="error-msg">{{errors.first('passwordR')}}</span>
       </div>
       <div class="controls">
-        <input name="m1" type="checkbox" v-model="agree">
+        <input type="checkbox" v-model="agree" name="agree"
+               v-validate="{require:true,agree:true}" :class="{invalid:errors.has('agree')}">
         <span>同意协议并注册《尚品汇用户协议》</span>
-        <span class="error-msg">错误提示信息</span>
+        <span class="error-msg">{{errors.first('agree')}}</span>
       </div>
       <div class="btn">
         <button @click="finishRegister">完成注册</button>
@@ -93,26 +100,34 @@
 
       //完成注册
       async finishRegister(){
-        if (!this.agree){
-          alert('请同意协议')
+        // if (!this.agree){
+        //   alert('请同意协议')
+        //   return
+        // }
+        // if (!this.phone || !this.password || !this.passwordR){
+        //   alert('表单内容请全部填写')
+        //   return
+        // }
+        // if (this.code!==this.$refs.codeValue.value){
+        //   alert('验证码输入错误')
+        //   return
+        // }
+        // if(!(/^[a-zA-Z0-9]{6,18}$/).test(this.password)){
+        //   alert('请输入6-18密码')
+        //   return
+        // }
+        // if(this.password!==this.passwordR){
+        //   alert('两次密码输入不一致')
+        //   return
+        // }
+
+        //判断表单是否全部验证通过
+        const success=await this.$validator.validateAll()
+        if (!success){
+          alert('表单填写有误')
           return
         }
-        if (!this.phone || !this.password || !this.passwordR){
-          alert('表单内容请全部填写')
-          return
-        }
-        if (this.code!==this.$refs.codeValue.value){
-          alert('验证码输入错误')
-          return
-        }
-        if(!(/^[a-zA-Z0-9]{6,18}$/).test(this.password)){
-          alert('请输入6-18密码')
-          return
-        }
-        if(this.password!==this.passwordR){
-          alert('两次密码输入不一致')
-          return
-        }
+
         //完成注册
         const res=await this.$store.dispatch(
             'user/finishRegisterAction',

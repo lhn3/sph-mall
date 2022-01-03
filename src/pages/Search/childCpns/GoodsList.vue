@@ -23,7 +23,7 @@
         <li class="yui3-u-1-5" v-for="item in goodsList" :key="item.id">
           <div class="list-wrap">
             <div class="p-img" @click="toDetail(item.id)">
-              <a><img :src="item.defaultImg"/></a>
+              <a><img v-lazy="item.defaultImg"/></a>
             </div>
             <div class="price">
               <strong>
